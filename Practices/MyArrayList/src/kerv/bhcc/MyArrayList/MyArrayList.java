@@ -1,11 +1,14 @@
 package kerv.bhcc.MyArrayList;
 
+
+import kerv.bhcc.ArrayException.ArrayException;
+
 public class MyArrayList<E> implements ArrayInterface<E> {
 
     /**
      * Default initial capacity.
      */
-    private static final int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 5;
 
     /**
      * Attribute for the ArrayList which is a static allocated array
@@ -23,23 +26,51 @@ public class MyArrayList<E> implements ArrayInterface<E> {
     private int capacity;
 
 
-
-
-
-
-    public MyArrayList() {
+    /**
+     * Default constructor setting the default capacity to the array.
+     * @throws Exception Exception.
+     */
+    public MyArrayList() throws Exception {
         this(DEFAULT_CAPACITY);
     }
 
-    public MyArrayList(final int capacity) {
-        elements = new Object[capacity];
-        setCapacity(capacity);
+    /**
+     * Parametrized constructor, taking the capacity of the array as argument <br>
+     * otherwise getting the default capacity from the default constructor.
+     * @param capacity Capacity of ArrayList
+     * @throws Exception Throws Exception.
+     */
+    public MyArrayList(final int capacity) throws Exception {
+        setElements(capacity);      // initialize the Array
+        setCapacity(capacity);      // initialize the capacity
+        setSize(0);                 // Initialize the size
     }
 
+    /**
+     * Method that resize the array if it is full. <br>
+     * 1) Update the capacity by double it. Making the time of complexity 0(1). <br>
+     * 2) Creates a tempo array, initialise it with the new capacity.<br>
+     * 3) Copy all elements from the array to the tempo array.<br>
+     * 4) Point the old array to the new array.
+     *
+     * @throws ArrayException Exception.
+     */
+    private void resize() throws ArrayException {
+        // Update the array capacity
+        setCapacity(getCapacity() * 2);
 
-    private void setCapacity(int capacity) {
-        this.capacity = capacity;
+        // Create a tempo array and initialize it
+        Object[] tempArray = new Object[getCapacity()];
+
+        // Copy each data from the old array to the temp array.
+        for (int index = 0; index < getSize(); index++) {
+            tempArray[index] = elements[index];
+        }
+
+        // Point the old array to the temp array
+        elements = tempArray;
     }
+
 
     /**
      * Method that allow you to add an element to the end of the ArrayList.
@@ -47,8 +78,14 @@ public class MyArrayList<E> implements ArrayInterface<E> {
      * @param element The element to add to the ArrayList
      */
     @Override
-    public void add(E element) {
+    public void add(E element) throws ArrayException {
+        // Check if the array is full
+        if (isFull()) {
+           resize();   // Resize the array (capacity)]
+        }
 
+        // Add the new element to the array
+        elements[size++] = element;
     }
 
     /**
@@ -172,6 +209,34 @@ public class MyArrayList<E> implements ArrayInterface<E> {
     @Override
     public Boolean isFull() { return getSize() == getCapacity(); }
 
+
+
+
+    /**
+     *
+     * @param capacity
+     * @throws ArrayException
+     */
+    private void setCapacity(int capacity) throws ArrayException {
+        if (capacity <= 0)
+            throw new ArrayException("Capacity must be greater than 0.");
+        this.capacity = capacity;
+    }
+
+    /**
+     *
+     * @param size
+     */
+    private void setSize(int size) { this.size = size; }
+
+    /**
+     *
+     * @param capacity
+     */
+    private void setElements(final int capacity) {
+        this.elements = new Object[capacity];
+    }
+
     /**
      * Method to get the ArrayList size
      */
@@ -183,4 +248,12 @@ public class MyArrayList<E> implements ArrayInterface<E> {
      */
     @Override
     public int getCapacity() { return capacity; }
+
+
+    public void print() {
+        for(int index = 0; index < getSize(); index++) {
+            IO.println(elements[index]);
+        }
+    }
+
 }

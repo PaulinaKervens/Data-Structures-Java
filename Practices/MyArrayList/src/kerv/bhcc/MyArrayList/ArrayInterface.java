@@ -1,11 +1,13 @@
 package kerv.bhcc.MyArrayList;
 
+import kerv.bhcc.ArrayException.ArrayException;
+
 public interface ArrayInterface<E> {
     /**
      * Method that allow you to add an element to the end of the  ArrayList.
      * @param element The element to add to the ArrayList
      */
-    public void add(E element);
+    public void add(E element) throws ArrayException;
 
     /**
      * Method that add an E element to a specific place.

@@ -1,5 +1,9 @@
+import kerv.bhcc.MyArrayList.MyArrayList;
 
 void main() {
-    ArrayList<Integer> a = new ArrayList<>();
-    a.
+    ArrayList<Integer> arr = new ArrayList<>();
+
+
+    MyArrayList<Integer> myArrayList = new MyArrayList<>();
+
 }

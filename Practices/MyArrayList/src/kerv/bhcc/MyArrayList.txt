@@ -1,0 +1,14 @@
+Method	                    What it does	                            Example
+----------------------------------------------------------------------------------
+add(E e)	                Adds an element to the end	                list.add("A");
+add(int index, E e)	        Inserts at a specific index	                list.add(1, "B");
+get(int index)	            Returns an element	                        list.get(0);
+set(int index, E e)	        Replaces an element	                        list.set(0, "C");
+remove(int index)	        Removes the element at an index	            list.remove(0);
+remove(Object o)	        Removes the first matching element	        list.remove("A");
+size()	                    Returns the number of elements	            list.size();
+isEmpty()	                Checks whether the list is empty	         list.isEmpty();
+clear()	                    Removes all elements	                    list.clear();
+contains(Object o)	        Checks whether an element exists	        list.contains("A");
+indexOf(Object o)	        Returns the first matching index, or -1	    list.indexOf("B");
+lastIndexOf(Object o)	    Returns the last matching index, or -1	    list.lastIndexOf("B");

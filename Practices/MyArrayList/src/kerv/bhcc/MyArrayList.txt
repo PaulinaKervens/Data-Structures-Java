@@ -1,14 +1,18 @@
-Method	                    What it does	                            Example
-----------------------------------------------------------------------------------
-add(E e)	                Adds an element to the end	                list.add("A");
+Method	                    What it does	                            Example                         Status
+----------------------------------------------------------------------------------------------------------------
+Resize()                    Resize the array capacity                   private method                  Completed
+add(E e)	                Adds an element to the end	                list.add("A");                  Completed
 add(int index, E e)	        Inserts at a specific index	                list.add(1, "B");
-get(int index)	            Returns an element	                        list.get(0);
-set(int index, E e)	        Replaces an element	                        list.set(0, "C");
+get(int index)	            Returns an element	                        list.get(0);                    Completed
+getFirst()                  Return the first element                    list.getFirst()                 Completed
+getLast()                   Return last element                         list.getLast()                  Completed
+set(int index, E e)	        Replaces an element	                        list.set(0, "C");               Completed
 remove(int index)	        Removes the element at an index	            list.remove(0);
 remove(Object o)	        Removes the first matching element	        list.remove("A");
-size()	                    Returns the number of elements	            list.size();
-isEmpty()	                Checks whether the list is empty	         list.isEmpty();
+removeLast()                Remove the last element                     list.removeLast();              Completed
+size()	                    Returns the number of elements	            list.size();                    Completed
+isEmpty()	                Checks whether the list is empty	        list.isEmpty();                 Completed
 clear()	                    Removes all elements	                    list.clear();
-contains(Object o)	        Checks whether an element exists	        list.contains("A");
+contains(Object o)	        Checks whether an element exists	        list.contains("A");             Completed
 indexOf(Object o)	        Returns the first matching index, or -1	    list.indexOf("B");
 lastIndexOf(Object o)	    Returns the last matching index, or -1	    list.lastIndexOf("B");

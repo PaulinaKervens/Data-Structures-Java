@@ -14,7 +14,7 @@ public interface ArrayInterface<E> {
      * @param index The place where to add that element.
      * @param element The element to add to the ArrayList.
      */
-    public void add(int index, E element);
+    public void add(int index, E element) throws ArrayException;
 
     /**
      * Method that check if the ArrayList is Empty.
@@ -60,7 +60,7 @@ public interface ArrayInterface<E> {
      * @param o The element target.
      * @return True or False
      */
-    public Boolean contains(Object o);
+    public boolean contains(final Object o) throws ArrayException;
 
     /**
      * Returns the first matching index, or -1.
@@ -88,13 +88,17 @@ public interface ArrayInterface<E> {
     public E getLast();
 
     /**
+     * Method that retrieve and display the last element of the ArrayList.
+     *
+     * @return An E type of the element list.
+     */
+    public E getFirst();
+
+    /**
      * Method to get the ArrayList size
      */
     public int getSize();
 
-    /**
-     * Method to get the ArrayList capacity
-     */
-    public int getCapacity();
+    public void clear() throws ArrayException;
 
 }

@@ -7,8 +7,6 @@ void main() {
 
         MyArrayList<Integer> myArrayList = new MyArrayList<>();
 
-        IO.println("Capacity is : " + myArrayList.getCapacity());
-
 
         myArrayList.add(10);
         myArrayList.add(20);
@@ -18,14 +16,13 @@ void main() {
         myArrayList.add(60);
         myArrayList.add(70);
         myArrayList.add(80);
+        myArrayList.add(90);
 
+        IO.println(myArrayList.getFirst());
 
-        IO.println("\nArray data: ");
+        myArrayList.clear();
+
         myArrayList.print();
-
-        IO.println("\nSize is : " + myArrayList.getSize());
-        IO.println("Capacity is : " + myArrayList.getCapacity());
-
 
     } catch (Exception arrayException) {
         arrayException.getMessage();

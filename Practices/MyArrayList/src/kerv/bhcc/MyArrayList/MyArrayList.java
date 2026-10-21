@@ -2,6 +2,8 @@ package kerv.bhcc.MyArrayList;
 
 
 import kerv.bhcc.ArrayException.ArrayException;
+import java.util.NoSuchElementException;
+
 
 public class MyArrayList<E> implements ArrayInterface<E> {
 
@@ -24,6 +26,7 @@ public class MyArrayList<E> implements ArrayInterface<E> {
      * Attribute that store ArrayList capacity
      */
     private int capacity;
+
 
 
     /**
@@ -57,10 +60,10 @@ public class MyArrayList<E> implements ArrayInterface<E> {
      */
     private void resize() throws ArrayException {
         // Update the array capacity
-        setCapacity(getCapacity() * 2);
+        setCapacity(capacity * 2);
 
         // Create a tempo array and initialize it
-        Object[] tempArray = new Object[getCapacity()];
+        Object[] tempArray = new Object[capacity];
 
         // Copy each data from the old array to the temp array.
         for (int index = 0; index < getSize(); index++) {
@@ -95,7 +98,30 @@ public class MyArrayList<E> implements ArrayInterface<E> {
      * @param element The element to add to the ArrayList.
      */
     @Override
-    public void add(int index, E element) {
+    public void add(int index, E element) throws ArrayException {
+
+        // Check if the array is full
+        if (isFull()) {
+            resize();   // Resize the array (capacity)]
+        }
+
+        // Create a temp array to past the old array data
+        Object[] tempArray = new Object[capacity];
+
+        // Read the array
+        for(int i = 0; i < getSize(); i++) {
+            // Condition that check if we got the index or not
+            if (i != index) {
+                tempArray[i] = elements[i];     // Copy data from the old array to the new one
+            } else {
+                tempArray[i] = element;         // Add the element at the index when arrive
+
+               // tempArray[] = elements[index];
+            }
+
+        }
+
+        elements = tempArray;
 
     }
 
@@ -105,7 +131,18 @@ public class MyArrayList<E> implements ArrayInterface<E> {
      * @param e The new element.
      */
     public E set(int index, E e) {
-        return null;
+        // Check if the index is outside the logical size
+        if (index < 0 || index >= getSize()) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + getSize());
+        }
+
+        // Store the old data from the index
+        Object oldData = elements[index];
+
+        // Update the index
+        elements[index] = e;
+
+        return (E) oldData; // Return the old data
     }
 
     /**
@@ -138,6 +175,17 @@ public class MyArrayList<E> implements ArrayInterface<E> {
      */
     @Override
     public boolean removeLast() {
+        // Check if the array list is not empty
+        if (!isEmpty()) {
+            // Update the last element to null
+            // to clear the reference to the last element.
+            elements[getSize() - 1] = null;
+            // Decreases the logical size by one.
+            setSize(getSize() - 1);
+            return true;    // Returns true when removal succeeds.
+        }
+
+        // Returns false when the list is already empty
         return false;
     }
 
@@ -148,8 +196,15 @@ public class MyArrayList<E> implements ArrayInterface<E> {
      * @return True or False
      */
     @Override
-    public Boolean contains(Object o) {
-        return null;
+    public boolean contains(final Object o) throws ArrayException {
+        // Read the Array
+        for (int index = 0; index < getSize(); index++)
+            // Condition to check if one of the index match
+            // if yes stop the array immediately, if no keep looking.
+            if (java.util.Objects.equals(elements[index], o))
+                return  true;
+        // return false if any index matched
+        return false;
     }
 
     /**
@@ -174,14 +229,21 @@ public class MyArrayList<E> implements ArrayInterface<E> {
     }
 
     /**
-     * Method that get and return an element at a specific location.
-     *
+     * Method that get and return an element at a specific location.<br>
+     * Time complexity is 0(1).
      * @param index The element location.
      */
     @Override
     public E get(int index) {
-        return null;
+        // Check if the index is outside the logical size
+        if (index < 0 || index >= getSize()) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + getSize());
+        }
+
+        // Return the element at the requested index
+        return (E) elements[index];
     }
+
 
     /**
      * Method that retrieve and display the last element of the ArrayList.
@@ -190,8 +252,28 @@ public class MyArrayList<E> implements ArrayInterface<E> {
      */
     @Override
     public E getLast() {
-        return null;
+        // Check if the list is empty before
+        if (isEmpty())
+            throw new NoSuchElementException("ArrayList is empty");
+        // Return the last value of the array
+        return (E) elements[getSize() - 1];
     }
+
+
+    /**
+     * Method that retrieve and display the First element of the ArrayList.
+     *
+     * @return An E type of the element list.
+     */
+    @Override
+    public E getFirst() {
+        // Check if the list is empty before
+        if (isEmpty())
+            throw new NoSuchElementException("ArrayList is empty");
+        // Return the last value of the array
+        return (E) elements[0];
+    }
+
 
     /**
      * Method that check if the ArrayList is Empty.
@@ -207,9 +289,7 @@ public class MyArrayList<E> implements ArrayInterface<E> {
      * @return True or False.
      */
     @Override
-    public Boolean isFull() { return getSize() == getCapacity(); }
-
-
+    public Boolean isFull() { return getSize() == capacity; }
 
 
     /**
@@ -237,20 +317,31 @@ public class MyArrayList<E> implements ArrayInterface<E> {
         this.elements = new Object[capacity];
     }
 
+
     /**
      * Method to get the ArrayList size
      */
     @Override
     public int getSize() { return size; }
 
+
     /**
-     * Method to get the ArrayList capacity
+     * Removes all elements from the array list and resets
+     * its capacity to the default capacity.
      */
     @Override
-    public int getCapacity() { return capacity; }
+    public void clear() throws ArrayException {
+        elements = new Object[DEFAULT_CAPACITY];
+        setCapacity(DEFAULT_CAPACITY);
+        setSize(0);
+    }
 
 
     public void print() {
+        if (isEmpty())
+            IO.println("Empty array");
+
+
         for(int index = 0; index < getSize(); index++) {
             IO.println(elements[index]);
         }

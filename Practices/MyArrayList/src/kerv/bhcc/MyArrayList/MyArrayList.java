@@ -208,7 +208,10 @@ public class MyArrayList<E> implements ArrayInterface<E> {
     }
 
     /**
-     * Returns the first matching index, or -1.
+     * compares element e with the elements in the array, <br>
+     * starting from the first one. <br>
+     * If a match is found, the index of the element is returned;<br>
+     * Otherwise, −1 is returned.
      *
      * @param o
      */
@@ -218,7 +221,10 @@ public class MyArrayList<E> implements ArrayInterface<E> {
     }
 
     /**
-     * Returns the last matching index, or -1.
+     * Compares element e with the elements in the array, <br>
+     * starting from the last one. <br>
+     * If a match is found, the index of the element is returned; <br>
+     * Otherwise, −1 is returned.
      *
      * @param o
      * @return

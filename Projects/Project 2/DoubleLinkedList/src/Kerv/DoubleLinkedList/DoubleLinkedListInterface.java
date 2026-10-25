@@ -32,7 +32,7 @@ public interface DoubleLinkedListInterface<T> {
      * @param position Position where to remove the element, must be a positive number
      *                 and list length inclusive;
      */
-    public void remove(final int position);
+    public T remove(final int position);
 
     /**
      * Method that removes all items from the list.
@@ -75,4 +75,5 @@ public interface DoubleLinkedListInterface<T> {
      * @return An array of list data ordered the same as the list.
      */
     public Object[] toArray();
+
 }

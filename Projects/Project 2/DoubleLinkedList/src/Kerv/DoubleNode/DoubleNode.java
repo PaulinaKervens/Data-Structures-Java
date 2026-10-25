@@ -1,9 +1,10 @@
-/** ****************************************
+/** ******************************************************************************
  * @Author      :   Kerv Paulina
  * @Date        :   Created On :  October 23, 2026
  * @File        :   Node.java
- * @Description :
- *******************************************/
+ * @Description :   Represents a node in a doubly linked list,
+ *                  storing an item and references to the previous and next nodes.
+ *********************************************************************************/
 
 package DoubleLinkedList.src.Kerv.DoubleNode;
 
@@ -43,7 +44,7 @@ public class DoubleNode<T> implements DoubleNodeInterface<T> {
     /**
      * Overload Constructor with a single parameter (anItem)...
      *
-     * @param anItem
+     * @param anItem Item to insert.
      */
     public DoubleNode(T anItem) {
         this(anItem, null, null);  // Call the overload cons by param signature
@@ -117,14 +118,17 @@ public class DoubleNode<T> implements DoubleNodeInterface<T> {
     }
 
     /**
+     * Method that returns a string representation of the item stored in the node.
      *
-     * @return
+     * @return Returns an item string.
      */
     @Override
     public String toString() {
-        return "DoubleNode [" +
-                "Next: " + next +
-                ", Item: " + item +
-                ", previous: " + previous + ']';
+        if (getItems() == null) {
+            return "Node is empty";
+        }
+
+        return "DoubleNode [Item: " + item + "]" ;
     }
+
 }

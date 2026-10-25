@@ -44,10 +44,4 @@ public interface DoubleNodeInterface<T> {
      */
     public DoubleNode<T> getPrevious();
 
-    /**
-     *
-     * @return
-     */
-    @Override
-    public String toString();
 }

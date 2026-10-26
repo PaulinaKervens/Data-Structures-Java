@@ -5,6 +5,11 @@ import DoubleLinkedList.src.Kerv.DoubleNode.DoubleNode;
 
 public class Test {
 
+    public static void print(DoubleLinkedList<Integer> list) {
+        for(int i = 0; i < list.getLength(); i++)
+            IO.println(list[i]);
+    }
+
     public static void main(String[] args) {
        /* DoubleNode<Integer> doubleNode = new DoubleNode<>();
         IO.println(doubleNode);
@@ -24,10 +29,11 @@ public class Test {
         doubleLinkedList.insert(4,40);
 
         doubleLinkedList.remove(2);
+        print(doubleLinkedList);
 
         IO.println(doubleLinkedList);
         //IO.println("Entry at position 3 : " + doubleLinkedList.getEntry(5));
-        IO.println("Position of entry 30 : " + doubleLinkedList.getIndexOf(30));
+        //IO.println("Position of entry 30 : " + doubleLinkedList.getIndexOf(30));
         //IO.println("My doubleLinkedList isEmpty: " + doubleLinkedList.isEmpty());
        // IO.println("My doubleLinkedList length: " + doubleLinkedList.getLength());
 

@@ -32,7 +32,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
     /**
      *
      */
-    private Finger<T> finger;
+    private Finger<T>[] fingers;
 
 
     /**
@@ -41,6 +41,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
     public DoubleLinkedList() {
         this.head = null;
         this.itemCount = 0;
+        this.fingers = new Finger[2];   // Allocate a fingers array with a default capacity of 2
     }
 
     /**
@@ -49,7 +50,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
      * @return true if the list contains no items; false otherwise.
      */
     public boolean isEmpty () {
-        return itemCount == 0;
+        return getLength() == 0;
     }
 
     /**
@@ -97,16 +98,31 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
         // Create and initialise {@code previous} attribute to always point at the previous inserted node
         // by getting the node at position - 1.
         DoubleNode<T> previous = getNodeAt(position - 1);
+
+        // Save the node that currently follows previous
+        DoubleNode<T> next = previous.getNext();
+
         // initialize the next pointer of newDoubleNode with the value of next pointer of previous
-        newDoubleNode.setNext(previous.getNext());
-        //
+        newDoubleNode.setNext(next);
+
+        // Set the new node's previous reference to the preceding node
+        newDoubleNode.setPrevious(previous);
+
+        // If a following node exists, update its previous reference
+        if (next != null) {
+            next.setPrevious(newDoubleNode);
+        }
+
+        // Update the preceding node's next reference to the new node
         previous.setNext(newDoubleNode);
+
         // Increase itemCount as we insert element
         itemCount++;
 
         // Return true after insertion
         return true;
     }
+
 
     /**
      * Method that removes the element at position.
@@ -145,6 +161,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
         return tempNode.getItems();
     }
 
+
     /**
      * Removes all items from the list.
      *
@@ -160,6 +177,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
         this.head = null;
         this.itemCount = 0;
     }
+
 
     /**
      * Gets the item at entry position, provided the position is valid.
@@ -188,6 +206,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
         return getNodeAt(position).getItems();
     }
 
+
     /**
      * Method that replace in element at entry position, provided the position is valid.
      *
@@ -199,8 +218,18 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
      */
     @Override
     public T replace(int position, T entry) throws IndexOutOfBoundsException {
-        return null;
+        // Check if the list is empty
+        if (isEmpty() || position > getLength()) {
+            throw new IndexOutOfBoundsException("");
+        }
+
+        DoubleNode<T> node = getNodeAt(position);
+        T element = node.getItems();
+        node.setItems(entry);
+
+        return element;
     }
+
 
     /**
      * Method that return the value of an index given.
@@ -210,7 +239,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
      * @throws IndexOutOfBoundsException if the position is unknown.
      */
     @Override
-    public int getIndexOf(T key) throws IndexOutOfBoundsException {
+    public int getIndexOf(T key) {
         // check if list is empty
         if (isEmpty()) {
             return -1;
@@ -223,7 +252,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
         DoubleNode<T> walker = head;
 
         // Read the list
-        for (int index = 0; index <= itemCount; index++) {
+        for (int index = 0; index < getLength(); index++) {
             // Increment
             position++;
 
@@ -232,8 +261,9 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
                 return position;    // If yes return the position immediately
             }
 
+            // Move walker to the next node
+            walker = walker.getNext();
         }
-
 
         // Not found
         return -1;
@@ -247,7 +277,6 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
      */
     @Override
     public Object[] toArray() {
-
         // Check if the list is not empty
         if (isEmpty()) {
             return null;
@@ -320,6 +349,27 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
 
         // Return the result
         return result.toString();
+    }
+
+
+    /**
+     *
+     * @param key
+     * @param position
+     */
+    private void updateFinger(DoubleNode<T> key, int position) {
+
+    }
+
+
+    /**
+     *
+     *
+     * @param idx The position of a node in the list.
+     * @return
+     */
+    private Finger<T> getClosest(int idx) {
+        return null;
     }
 
 

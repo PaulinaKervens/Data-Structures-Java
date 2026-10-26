@@ -67,7 +67,7 @@ public interface DoubleLinkedListInterface<T> {
      * @return Value of the index if existed.
      * @throws IndexOutOfBoundsException if the position is unknown.
      */
-    public int getIndexOf(T key) throws IndexOutOfBoundsException;
+    public int getIndexOf(T key);
 
     /**
      * Method that returns the array form of the list data.

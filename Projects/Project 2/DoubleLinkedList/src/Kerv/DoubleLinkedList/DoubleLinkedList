@@ -1,3 +1,68 @@
+Phase I — Doubly Linked List (20 pts)
+-----------------------------------------------------------------
+- Implement DoubleNode with previous and next references.
+- Correctly maintain both references during insertion and removal.
+- Implement getIndexOf().
+- Implement the required toString() format.
+
+
+Phase II — Finger Searching (20 pts)
+------------------------------------------------------------------
+- Implement the generic Finger class.
+- Initialize an array containing two finger slots.
+- Implement updateFinger() and getClosest().
+- Modify getNodeAt() to use finger searching.
+- Refresh fingers after insertion and removal.
+
+
+Phase III — Simulator and Sorting (30 pts)
+--------------------------------------------------------------------
+- Read and execute commands from commands.csv.
+- Implement sorting using a Comparator.
+- Support printing the list normally or sorted.
+
+
+Implement sort() method
+----------------------------------------------------------
+1. Method declaration
+ -> Create the sort method inside DoubleLinkedList.java.
+    It should accept a Comparator<T> as its argument.
+
+2. Handle special cases
+ -> If the list is empty or contains only one element,
+    no sorting is necessary.
+
+3. Start from head
+ -> Use a walker to traverse the list, beginning at head.
+
+4. Compare adjacent elements
+ -> Compare the current node's item with the next node's
+    item using the supplied Comparator.
+
+5. Check the comparison result
+ -> For ascending order, a positive comparison result means
+    those two items are out of order.
+
+6. Swap the items
+ -> Exchange the stored items when necessary. Keep the actual
+    nodes and their links unchanged.
+
+7. Continue traversing
+ -> Move to the next pair and continue until you reach the
+    end of the list.
+
+8. Repeat the process
+ -> Perform additional passes until a complete pass finishes
+    without any swaps.
+
+9. Preserve your fingers
+ -> Because you're swapping items rather than moving nodes,
+    the finger references and their indices remain valid.
+
+10. Test your method
+ -> Test an unsorted list, already sorted list, reverse-sorted list,
+    duplicate values, empty list, and one-element list.
+
 
 
 Insertion 0(N)

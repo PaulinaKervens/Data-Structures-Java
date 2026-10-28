@@ -1,7 +1,9 @@
-/** ****************************************
- * @Author      :   Kerv Paulina
- * @Date        :   Created On :  October 23, 2026
- * @File        :   DoubleLinkedList.java
+/**
+ * ***************************************
+ *
+ * @Author :   Kerv Paulina
+ * @Date :   Created On :  October 23, 2026
+ * @File :   DoubleLinkedList.java
  * @Description :
  *******************************************/
 
@@ -9,6 +11,8 @@
 package DoubleLinkedList.src.Kerv.DoubleLinkedList;
 
 import DoubleLinkedList.src.Kerv.DoubleNode.DoubleNode;
+
+import java.util.Comparator;
 
 
 /**
@@ -49,7 +53,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
      *
      * @return true if the list contains no items; false otherwise.
      */
-    public boolean isEmpty () {
+    public boolean isEmpty() {
         return getLength() == 0;
     }
 
@@ -76,50 +80,67 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
     public boolean insert(int position, T entry) {
         // Check if the position given is a positive number
         // And if not exceed the List
-        if ( (position < 1) || position > (itemCount + 1) ) {
+        if ((position < 1) || position > (itemCount + 1)) {
             IO.println("The position must be a positive number, please enter a positive number...");
+            return false;
+        } else if (entry == null) {
             return false;
         }
 
-        // Create the node object by passing the entry value as param
+        // Create the node by passing the entry value as param
         DoubleNode<T> newDoubleNode = new DoubleNode<>(entry);
 
         // Check the position if that is the first position
-        // To set the head of the list
+        // To insert at the beginning of the list
         if (position == 1) {
+            // initialize the head of the list
             newDoubleNode.setNext(head);
-            head = newDoubleNode;   // Initialize head to hold the first value in the list
+
+            // Check if there is any previous node
+            if (head != null) {
+                head.setPrevious(newDoubleNode);
+            }
+
+            // Initialize head to hold the first value in the list
+            head = newDoubleNode;
+
             // Increase itemCount as we insert element
             itemCount++;
+
+            // Update the finger
+            updateFinger();
+
             return true;
         }
 
         // If it not the first element to insert
+        // Get the node immediately before the insertion position
         // Create and initialise {@code previous} attribute to always point at the previous inserted node
         // by getting the node at position - 1.
         DoubleNode<T> previous = getNodeAt(position - 1);
 
-        // Save the node that currently follows previous
+        // Get the node that currently follows previous
         DoubleNode<T> next = previous.getNext();
 
-        // initialize the next pointer of newDoubleNode with the value of next pointer of previous
-        newDoubleNode.setNext(next);
-
+        // Link the new node to its neighbors nodes
         // Set the new node's previous reference to the preceding node
         newDoubleNode.setPrevious(previous);
+        // initialize the next pointer of newDoubleNode with the value of next pointer of previous
+        newDoubleNode.setNext(next);
+        // Update the preceding node's next reference to the new node
+        previous.setNext(newDoubleNode);
 
         // If a following node exists, update its previous reference
         if (next != null) {
             next.setPrevious(newDoubleNode);
         }
 
-        // Update the preceding node's next reference to the new node
-        previous.setNext(newDoubleNode);
-
-        // Increase itemCount as we insert element
+        // Update the number of items as we insert element
         itemCount++;
 
-        // Return true after insertion
+        // Update the finger
+        updateFinger();
+
         return true;
     }
 
@@ -133,29 +154,54 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
     @Override
     public T remove(int position) {
         // Check if the list is empty
-        if (isEmpty()){
+        if (isEmpty()) {
             IO.println("List is empty");
             return null;
         }
+        // Check for in invalid position
+        else if (position > getLength() || position < 1) {
+            System.out.println("The position given is out of the list range.");
+            return null;
+        }
 
-        // Create a tampon value for the element removed
-        // initialize the tempo with the only value in the list (head)
+        // Create a temporary node for the removed element
+        // Initialize it with the head of the list
         DoubleNode<T> tempNode = head;
 
         // Condition if the list that has only one node
         if (itemCount == 1) {
-            clear();    // just clear the list
-            return tempNode.getItems();    // Return the item removed
+            // As there is one node in the list, just clear the list
+            clear();
+            // Return the item removed
+            return tempNode.getItems();
         }
 
-        // Create a previous DoubleNode
-        DoubleNode<T> previous = getNodeAt(position - 1);
-        // initialize our temp DoubleNode with the next node.
-        tempNode = previous.getNext();
-        // initialize the next of previous with the first node
-        previous.setNext(tempNode.getNext());
+        // Condition for a list with multiple element
+        // For removing the first node,
+        if (position == 1) {
+            // Get the next node
+            head = head.getNext();
+            // Remove the previous node address
+            head.setPrevious(null);
+        } else {
+            // Get a previous DoubleNode
+            DoubleNode<T> previous = getNodeAt(position - 1);
+            // Get the node to remove from the list
+            tempNode = previous.getNext();
+            // initialize the next of previous with the first node
+            previous.setNext(tempNode.getNext());
+
+            // Check if the next node is not null
+            if (tempNode.getNext() != null) {
+                tempNode.getNext().setPrevious(previous);
+            }
+        }
+
         // decrement the list item
         itemCount--;
+
+        // Update the finger
+        updateFinger();
 
         // Return the item removed
         return tempNode.getItems();
@@ -176,6 +222,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
     public void clear() {
         this.head = null;
         this.itemCount = 0;
+        fingers = new Finger[2];
     }
 
 
@@ -190,7 +237,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
     @Override
     public T getEntry(int position) throws IndexOutOfBoundsException {
         // Check if the node is not empty
-        if (isEmpty()){
+        if (isEmpty()) {
             throw new IndexOutOfBoundsException("List is empty");
         }
         // Check if position is not greater than the number of item in the list
@@ -219,12 +266,20 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
     @Override
     public T replace(int position, T entry) throws IndexOutOfBoundsException {
         // Check if the list is empty
-        if (isEmpty() || position > getLength()) {
-            throw new IndexOutOfBoundsException("");
+        if (isEmpty() || (position > getLength() || position < 1)) {
+            throw new IndexOutOfBoundsException("Position is invalid");
         }
 
+        // Check and Handle the null pointer exception
+        if (entry == null) {
+            throw new NullPointerException("The element cannot be null.");
+        }
+
+        // Create a tempo node
         DoubleNode<T> node = getNodeAt(position);
+        // Get the node value to change
         T element = node.getItems();
+        // Update the node value
         node.setItems(entry);
 
         return element;
@@ -241,7 +296,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
     @Override
     public int getIndexOf(T key) {
         // check if list is empty
-        if (isEmpty()) {
+        if (isEmpty() || key == null) {
             return -1;
         }
 
@@ -312,16 +367,23 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
         // Check if the list is empty or
         // the position is not negative or
         // position is not greater than the item present in the list(itemCount)
-        if (isEmpty() || (position < 1) || position > itemCount ) {
+        if (isEmpty() || (position < 1) || position > itemCount) {
             return null; // return null
         }
 
-        // if the list is not initialize with the head of the list
-        DoubleNode<T> walker = head;
+        // Start traversal from the closest finger's node
+        Finger<T> finger = getClosest(position);
+        DoubleNode<T> walker = finger.getNode();
+        // Get the number of step to get to the target
+        int steps = Math.abs(position - finger.getIndex());
 
         // Walk through the node until reaching the position given
-        for (int index = 0; index < position - 1; index++) {
-            walker = walker.getNext();  // Keep moving to the next one
+        for (int index = 0; index < steps; index++) {
+            if (finger.getIndex() < position) {
+                walker = walker.getNext();
+            } else {
+                walker = walker.getPrevious();
+            }
         }
 
         // Return the element at the position given
@@ -337,6 +399,11 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
      */
     @Override
     public String toString() {
+        // Check the list
+        if (isEmpty()) {
+            return ("Empty List.");
+        }
+
         StringBuilder result = new StringBuilder();
         int countEntry = 0;
 
@@ -353,23 +420,162 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
 
 
     /**
+     * Updates the finger array by distributing the fingers evenly
+     * across the doubly linked list. Each finger stores a position
+     * and a reference to the node at that position.
      *
-     * @param key
-     * @param position
+     * If the list is empty, the finger array is reset.
      */
-    private void updateFinger(DoubleNode<T> key, int position) {
+    private void updateFinger() {
+        // Check if the list is empty
+        // and reset the finger array
+        if (isEmpty()) {
+            // Create a new finger array with 2 capacity
+            fingers = new Finger[2];
+            return;
+        }
 
+        // Get the total number of fingers
+        // We will know how many fingers need to be updated
+        int numberOfFingers = fingers.length;
+
+        // Walk through the finger array
+        for (int index = 0; index < numberOfFingers; index++) {
+            final var position = getPosition(numberOfFingers, index);
+
+            // Temp DoubleNode object
+            DoubleNode<T> node = head;
+
+            // Find the target node by moving forward until
+            // we reach the calculated position
+            for (int j = 1; j < position; j++) {
+                node = node.getNext();
+            }
+
+            // Create and replace the finger
+            fingers[index] = new Finger<>(position, node);
+        }
+    }
+
+    /**
+     * Helper method that distribute finger evenly across the list.<br>
+     * Formular used : position = 1 + round ( i(n-1)/ f - 1 ) <br>
+     * Where :
+     *         i = current finger index, starting at 0
+     *         n = list length
+     *         f = number of fingers
+     *
+     * @param numberOfFingers Number of finger to update
+     * @param index The target finger index
+     * @return The node position
+     */
+    private int getPosition(int numberOfFingers, double index) {
+        int position;
+
+        // Calculate the position where the current finger should point
+        // Handle the case where there is only one finger
+        if (numberOfFingers == 1) {
+            position = 1;
+        }
+        // Handle the case where there is many fingers
+        else {
+            // Calculate the position where the current finger should point
+            // based on the list length and the total number of fingers
+            position = 1 + (int) Math.round(index * (getLength() - 1) / (numberOfFingers - 1));
+        }
+        return position;
     }
 
 
     /**
+     * Method that finds and returns the closest finger to the requested index.<br>
+     * It compares the distance between each finger and the
+     * target index to determine the closest starting point.
      *
-     *
-     * @param idx The position of a node in the list.
-     * @return
+     * @param idx The target index in the list.
+     * @return The closest Finger object to the requested index.
+     * @throws IndexOutOfBoundsException If the list is empty or the index is invalid.
      */
     private Finger<T> getClosest(int idx) {
-        return null;
+        // Check if the list is empty or the index is out of range
+        if (idx < 1 || idx > getLength() || isEmpty()) {
+            throw new IndexOutOfBoundsException("The requested index is invalid.");
+        }
+
+        // Initialize the closest finger with the head of the list
+        Finger<T> closest = new Finger<>(1, head);
+        // Get the smallest distance from the index
+        int smallestDistance = Math.abs(idx - 1);
+
+        // Walk through the array finger
+        for (Finger<T> finger : fingers) {
+            // Condition to check if the value retrieve is null
+            // to skip it
+            if (finger != null) {
+                // Get the distance between the finger and the index target
+                int distance = Math.abs(idx - finger.getIndex());
+                // Update the closest finger if a shorter distance is found
+                if (distance < smallestDistance) {
+                    smallestDistance = distance;
+                    closest = finger;
+                }
+            }
+        }
+
+        // Return the closest finger found (position and DoubleNode reference)
+        return closest;
+    }
+
+
+    /**
+     * Method sorts list using the bubble sort algorithm. <br>
+     * <p>This method compares two items and swaps them whenever the
+     *  current item is greater than the next item, according to the comparator.</p>
+     *  It repeats the process until no swaps occur.
+     *
+     * @param comparator the comparator used to compare the items in the list.
+     */
+    public void sort(Comparator<T> comparator) {
+        // Check if the list is not empty or if only one element exist
+        if (isEmpty() || (getLength() == 1)) {
+            return;
+        }
+
+        // Local variable to get track if a swap has been made
+        boolean swapped;
+
+        // Repeat passes until no swaps occur
+        do {
+            // initialize swapped
+            swapped = false;
+
+            // Get the first node
+            DoubleNode<T> walker = head;
+
+            // Inner loop to stay inside to be able to swap other item if needed
+            while (walker.getNext() != null) {
+                // Compare both nodes
+                int result = comparator.compare(walker.getItems(), walker.getNext().getItems());
+
+                // Temporary variable to save the current item before swap
+                if (result > 0) {
+                    T tempItem = walker.getItems();
+
+                    // Set the current item with the next item value
+                    walker.setItems(walker.getNext().getItems());
+
+                    // Set the next item with the previous item value
+                    walker.getNext().setItems(tempItem);
+
+                    // Record that a swap happened
+                    swapped = true;
+                }
+
+                // Move walker to the next node
+                walker = walker.getNext();
+            }
+
+        } while (swapped);
     }
 
 

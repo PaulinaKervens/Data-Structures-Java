@@ -11,7 +11,7 @@ package DoubleLinkedList.src.Kerv.DoubleLinkedList;
 import DoubleLinkedList.src.Kerv.DoubleNode.DoubleNode;
 
 /**
- * Class that searching through the Double linked list.
+ * Class that stores a reference to a node and its position.
  *
  * @param <T> Generic type.
  */
@@ -27,14 +27,14 @@ public class Finger<T> {
     private int idx;
 
     /**
-     * Default constructor.
+     * Constructor that initializes a finger
      *
-     * @param idx Position of a node in the list, A positive integer..
-     * @param node Node reference.
+     * @param idx The Position of a node in the list {@link #idx}, A positive integer.
+     * @param node A {@link #node} address reference.
      */
     public Finger(int idx, DoubleNode<T> node) {
-        this.idx = idx;
-        this.node = node;
+        this.setIndex(idx);
+        this.setNode(node);
     }
 
     /**
@@ -43,6 +43,8 @@ public class Finger<T> {
      * @param node The node reference.
      */
     public void setNode(DoubleNode<T> node) {
+        if (node == null)
+            throw new NullPointerException("The node given cannot be null...");
         this.node = node;
     }
 
@@ -52,6 +54,8 @@ public class Finger<T> {
      * @param idx A positive integer.
      */
     public void setIndex(int idx) {
+        if (idx < 1)
+            throw new IndexOutOfBoundsException("The index must be positive.");
         this.idx = idx;
     }
 

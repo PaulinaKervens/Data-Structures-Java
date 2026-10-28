@@ -1,11 +1,11 @@
-/**
- * ***************************************
- *
- * @Author :   Kerv Paulina
- * @Date :   Created On :  October 23, 2026
- * @File :   DoubleLinkedList.java
- * @Description :
- *******************************************/
+/*****************************************************************
+ * @Author :        Kerv Paulina
+ * @Date :          Created On :  October 23, 2026
+ * @File :          DoubleLinkedList.java
+ * @Description :   Class that implements the operations of a
+ *                  doubly linked list, such as insertion, removal,
+ *                  searching, sorting, and accessing entries.
+ ***************************************************************/
 
 
 package DoubleLinkedList.src.Kerv.DoubleLinkedList;
@@ -81,7 +81,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
         // Check if the position given is a positive number
         // And if not exceed the List
         if ((position < 1) || position > (itemCount + 1)) {
-            IO.println("The position must be a positive number, please enter a positive number...");
+            System.err.println("Position is out of range..");
             return false;
         } else if (entry == null) {
             return false;
@@ -570,11 +570,10 @@ public class DoubleLinkedList<T> implements DoubleLinkedListInterface<T> {
                     // Record that a swap happened
                     swapped = true;
                 }
-
                 // Move walker to the next node
                 walker = walker.getNext();
             }
-
+        // Continue in the loop or not depend on swapped value
         } while (swapped);
     }
 

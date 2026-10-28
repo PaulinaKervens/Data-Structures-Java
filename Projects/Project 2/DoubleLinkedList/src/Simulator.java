@@ -1,8 +1,10 @@
 /** ****************************************
- * @Author      :   Kerv Paulina
- * @Date        :   Created On :  October 26, 2026  00:27
- * @File        :   Simulator.java
- * @Description :
+ * @Author     :   Kerv Paulina
+ * @Date       :   Created On :  October 26, 2026  00:27
+ * @File       :   Simulator.java
+ * @Description:   Class that simulate all operations from
+ *                 the DoubleLinkedList. By reading instructions
+ *                 from a file.
  *******************************************/
 
 
@@ -16,6 +18,9 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/**
+ * Class that simulate all operations.
+ */
 public class Simulator {
 
     /**
@@ -63,29 +68,27 @@ public class Simulator {
     private static void command(String[] lineSplit) {
         switch (lineSplit[0]) {
             case "create":
-                System.out.println("create");
+                System.out.println("\t\tCreated");
+                System.out.println("------------------------\n");
                 break;
 
             case "insert":
-                // Call insert
-                linkedList.insert(Integer.valueOf(lineSplit[1]), Integer.valueOf(lineSplit[2]));
+                linkedList.insert(
+                        Integer.valueOf(lineSplit[1]),
+                        Integer.valueOf(lineSplit[2])
+                );
                 break;
 
             case ("remove"):
-                // todo
-                // call remove
                 linkedList.remove(Integer.parseInt(lineSplit[1]));
                 break;
 
             case ("get"):
-                // todo
-                // call getEntry
                 linkedList.getEntry(Integer.parseInt(lineSplit[1]));
-
                 break;
 
             case ("print"):
-                IO.println("\n");
+                IO.println("");
                 if (Integer.parseInt(lineSplit[1]) == 0) {
                     System.out.println("Print of the list unsorted order:\n" +linkedList);
                 } else if (Integer.parseInt(lineSplit[1]) == 1) {

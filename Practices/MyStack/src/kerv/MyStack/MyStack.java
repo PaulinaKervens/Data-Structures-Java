@@ -1,9 +1,10 @@
 /**
+ * A custom generic stack implementation providing standard LIFO operations,
+ * capacity management, and iteration support.
  *
- *
- * @author  Kervens Paulina
- * @see     java.util.Stack
- * @description
+ * @param <T> the type of elements held in this stack
+ * @author Kervens Paulina
+ * @see java.util.Stack
  */
 
 package MyStack.src.kerv.MyStack;

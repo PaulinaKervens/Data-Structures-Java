@@ -2,41 +2,58 @@ package kerv.bhcc.MyArrayList;
 
 import kerv.bhcc.ArrayException.ArrayException;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 public interface ArrayInterface<E> {
     /**
-     * Method that allow you to add an element to the end of the  ArrayList.
-     * @param element The element to add to the ArrayList
+     * Appends the specified element to the end of this stack.
+     * If the stack is full, it automatically resizes before adding.
+     *
+     * @param element the element to be added
+     * @throws ArrayException if an error occurs while resizing the stack
      */
     public void add(E element) throws ArrayException;
 
     /**
-     * Method that add an E element to a specific place.
-     * @param index The place where to add that element.
-     * @param element The element to add to the ArrayList.
+     * Inserts the specified element at the specified position in this stack.
+     * Shifts the element currently at that position (if any) and any subsequent
+     * elements to the right.
+     *
+     * @param index the index at which the specified element is to be inserted
+     * @param element the element to be inserted
+     * @throws ArrayException if an error occurs while resizing the stack
+     * @throws IndexOutOfBoundsException if the index is out of bounds
      */
     public void add(int index, E element) throws ArrayException;
 
     /**
-     * Method that check if the ArrayList is Empty.
-     * @return True or False.
+     * Checks if this stack is empty.
+     *
+     * @return {@code true} if this stack is empty; {@code false} otherwise
      */
     public Boolean isEmpty();
 
     /**
-     * Method that check if the ArrayList is full.
-     * @return True or False.
+     * Checks if this stack is full.
+     *
+     * @return {@code true} if this stack is full; {@code false} otherwise
      */
     public Boolean isFull();
 
     /**
-     * Method to replaces an element at a specific index.
-     * @param index The target.
-     * @param e The new element.
+     * Replaces the element at the specified position in this stack with the specified element.
+     *
+     * @param index the index of the element to replace
+     * @param e the element to be stored at the specified position
+     * @return the element previously at the specified position
+     * @throws IndexOutOfBoundsException if the index is out of range
      */
     public E set(int index, E e);
 
     /**
      * Method to removes an element at an index.
+     *
      * @param index the place where the element is located.
      * @return True or False, if the element has been removed.
      */
@@ -51,20 +68,26 @@ public interface ArrayInterface<E> {
 
     /**
      * Method that removes the last element.
+     *
      * @return True or False, if the element has been removed.
      */
     public boolean removeLast();
 
     /**
-     * Method that Checks whether an element exists in the ArrayList.
-     * @param o The element target.
-     * @return True or False
+     * Returns {@code true} if this stack contains the specified element.
+     *
+     * @param o the element whose presence in this stack is to be tested
+     * @return {@code true} if this stack contains the specified element; {@code false} otherwise
+     * @throws ArrayException if an error occurs while checking containment
      */
     public boolean contains(final Object o) throws ArrayException;
 
     /**
-     * Returns the first matching index, or -1.
-     * @param o
+     * Returns the index of the first occurrence of the specified element
+     * in this stack, or -1 if this stack does not contain the element.
+     *
+     * @param o the element to search for
+     * @return the index of the first occurrence of the specified element, or -1 if not found
      */
     public int indexOf(Object o);
 
@@ -76,29 +99,51 @@ public interface ArrayInterface<E> {
     public int lastIndexOf(Object o);
 
     /**
-     * Method that get and return an element at a specific location.
-     * @param index The element location.
+     * Returns the element at the specified position in this stack.
+     * <p>
+     * Time complexity is O(1).
+     *
+     * @param index the index of the element to return
+     * @return the element at the specified position in this stack
+     * @throws IndexOutOfBoundsException if the index is out of range
      */
     public E get(final int index);
 
     /**
-     * Method that retrieve and display the last element of the ArrayList.
-     * @return An E type of the element list.
+     * Returns the last element in this stack.
+     *
+     * @return the last element in this stack
+     * @throws NoSuchElementException if this stack is empty
      */
     public E getLast();
 
     /**
-     * Method that retrieve and display the last element of the ArrayList.
+     * Returns the first element in this stack.
      *
-     * @return An E type of the element list.
+     * @return the first element in this stack
+     * @throws NoSuchElementException if this stack is empty
      */
     public E getFirst();
 
     /**
-     * Method to get the ArrayList size
+     * Returns the number of elements in this stack.
+     *
+     * @return the number of elements in this stack
      */
     public int getSize();
 
+    /**
+     * Removes all elements from the stack and resets its capacity to the default capacity.
+     *
+     * @throws ArrayException if an error occurs while clearing the stack
+     */
     public void clear() throws ArrayException;
+
+    /**
+     * Returns an iterator over the elements in this stack in proper sequence.
+     *
+     * @return an iterator over the elements in this stack in proper sequence
+     */
+    public Iterator<E> iterator();
 
 }

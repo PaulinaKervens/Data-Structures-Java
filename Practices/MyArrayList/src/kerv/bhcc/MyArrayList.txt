@@ -2,7 +2,7 @@ Method	                    What it does	                            Example     
 ----------------------------------------------------------------------------------------------------------------
 Resize()                    Resize the array capacity                   private method                  Completed
 add(E e)	                Adds an element to the end	                list.add("A");                  Completed
-add(int index, E e)	        Inserts at a specific index	                list.add(1, "B");
+add(int index, E e)	        Inserts at a specific index	                list.add(1, "B");               Completed
 get(int index)	            Returns an element	                        list.get(0);                    Completed
 getFirst()                  Return the first element                    list.getFirst()                 Completed
 getLast()                   Return last element                         list.getLast()                  Completed

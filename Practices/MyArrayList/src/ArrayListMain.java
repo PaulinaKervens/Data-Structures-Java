@@ -4,9 +4,7 @@ void main() {
     ArrayList<Integer> arr = new ArrayList<>();
 
     try {
-
-        MyArrayList<Integer> myArrayList = new MyArrayList<>();
-
+       MyArrayList<Integer> myArrayList = new MyArrayList<>();
 
         myArrayList.add(10);
         myArrayList.add(20);
@@ -18,15 +16,15 @@ void main() {
         myArrayList.add(80);
         myArrayList.add(90);
 
-        IO.println(myArrayList.getFirst());
-
-        myArrayList.clear();
 
         myArrayList.print();
+
+        IO.println("getting index" + myArrayList.indexOf(90));
 
     } catch (Exception arrayException) {
         arrayException.getMessage();
     }
+
 
 
 }

@@ -2,134 +2,144 @@ package kerv.bhcc.MyArrayList;
 
 
 import kerv.bhcc.ArrayException.ArrayException;
+
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
-public class MyArrayList<E> implements ArrayInterface<E> {
+public class MyArrayList<E> implements ArrayInterface<E>, Iterable<E> {
 
     /**
-     * Default initial capacity.
+     * The default initial capacity of this stack.
      */
     private static final int DEFAULT_CAPACITY = 5;
 
     /**
-     * Attribute for the ArrayList which is a static allocated array
+     * The array buffer into which the elements of the stack are stored.
      */
     private Object[] elements;
 
     /**
-     * Attribute that store ArrayList size
+     * The current number of elements contained in this stack.
      */
     private int size;
 
     /**
-     * Attribute that store ArrayList capacity
+     * The maximum capacity of this stack.
      */
     private int capacity;
 
 
-
     /**
-     * Default constructor setting the default capacity to the array.
-     * @throws Exception Exception.
+     * Constructs a new collection with a default initial capacity.
+     *
+     * @throws ArrayException if an error occurs during initialization
      */
-    public MyArrayList() throws Exception {
+    public MyArrayList() throws ArrayException {
         this(DEFAULT_CAPACITY);
     }
 
-    /**
-     * Parametrized constructor, taking the capacity of the array as argument <br>
-     * otherwise getting the default capacity from the default constructor.
-     * @param capacity Capacity of ArrayList
-     * @throws Exception Throws Exception.
-     */
-    public MyArrayList(final int capacity) throws Exception {
-        setElements(capacity);      // initialize the Array
-        setCapacity(capacity);      // initialize the capacity
-        setSize(0);                 // Initialize the size
-    }
 
     /**
-     * Method that resize the array if it is full. <br>
+     * Constructs a new collection with the specified initial capacity.
+     *
+     * @param capacity the initial capacity of the collection
+     * @throws ArrayException if the specified capacity is less than or equal to 0
+     */
+    public MyArrayList(final int capacity) throws ArrayException {
+        setElements(capacity); // Initialize the underlying array
+        setCapacity(capacity); // Initialize and validate the capacity
+        setSize(0);            // Initialize the size
+    }
+
+
+    /**
+     * Resizes the underlying array when the stack is full by doubling its capacity. <br>
      * 1) Update the capacity by double it. Making the time of complexity 0(1). <br>
      * 2) Creates a tempo array, initialise it with the new capacity.<br>
      * 3) Copy all elements from the array to the tempo array.<br>
      * 4) Point the old array to the new array.
      *
-     * @throws ArrayException Exception.
+     * @throws ArrayException ArrayException if the new capacity is invalid
      */
     private void resize() throws ArrayException {
-        // Update the array capacity
+        // Update the array capacity by doubling it
         setCapacity(capacity * 2);
 
-        // Create a tempo array and initialize it
+        // Create a temporary array and initialize it with the new capacity
         Object[] tempArray = new Object[capacity];
 
-        // Copy each data from the old array to the temp array.
+        // Copy all elements from the old array to the temporary array
         for (int index = 0; index < getSize(); index++) {
             tempArray[index] = elements[index];
         }
 
-        // Point the old array to the temp array
+        // Point the old array reference to the temporary array
         elements = tempArray;
     }
 
 
     /**
-     * Method that allow you to add an element to the end of the ArrayList.
+     * Appends the specified element to the end of this stack.
+     * If the stack is full, it automatically resizes before adding.
      *
-     * @param element The element to add to the ArrayList
+     * @param element the element to be added
+     * @throws ArrayException if an error occurs while resizing the stack
      */
     @Override
     public void add(E element) throws ArrayException {
-        // Check if the array is full
+        // Check if the array is full and resize if necessary
         if (isFull()) {
-           resize();   // Resize the array (capacity)]
+            resize();
         }
 
-        // Add the new element to the array
+        // Add the new element to the stack and increment the size
         elements[size++] = element;
     }
 
+
     /**
-     * Method that add an E element to a specific place.
+     * Inserts the specified element at the specified position in this stack.
+     * Shifts the element currently at that position (if any) and any subsequent
+     * elements to the right.
      *
-     * @param index   The place where to add that element.
-     * @param element The element to add to the ArrayList.
+     * @param index the index at which the specified element is to be inserted
+     * @param element the element to be inserted
+     * @throws ArrayException if an error occurs while resizing the stack
+     * @throws IndexOutOfBoundsException if the index is out of bounds
      */
     @Override
     public void add(int index, E element) throws ArrayException {
+        // Validate the index
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
 
-        // Check if the array is full
+        // Check if the stack is full and resize if necessary
         if (isFull()) {
-            resize();   // Resize the array (capacity)]
+            resize();
         }
 
-        // Create a temp array to past the old array data
-        Object[] tempArray = new Object[capacity];
-
-        // Read the array
-        for(int i = 0; i < getSize(); i++) {
-            // Condition that check if we got the index or not
-            if (i != index) {
-                tempArray[i] = elements[i];     // Copy data from the old array to the new one
-            } else {
-                tempArray[i] = element;         // Add the element at the index when arrive
-
-               // tempArray[] = elements[index];
-            }
-
+        // Shift elements to the right to make space for the new element
+        for (int i = size; i > index; i--) {
+            elements[i] = elements[i - 1];
         }
 
-        elements = tempArray;
-
+        // Insert the element at the specified index and increment the size
+        elements[index] = element;
+        size++;
     }
 
+
     /**
-     * Method to replaces an element at a specific index.
-     * @param index The target.
-     * @param e The new element.
+     * Replaces the element at the specified position in this stack with the specified element.
+     *
+     * @param index the index of the element to replace
+     * @param e the element to be stored at the specified position
+     * @return the element previously at the specified position
+     * @throws IndexOutOfBoundsException if the index is out of range
      */
+    @SuppressWarnings("unchecked")
     public E set(int index, E e) {
         // Check if the index is outside the logical size
         if (index < 0 || index >= getSize()) {
@@ -139,11 +149,13 @@ public class MyArrayList<E> implements ArrayInterface<E> {
         // Store the old data from the index
         Object oldData = elements[index];
 
-        // Update the index
+        // Update the element at the specified index
         elements[index] = e;
 
-        return (E) oldData; // Return the old data
+        // Return the old data
+        return (E) oldData;
     }
+
 
     /**
      * Method to removes an element at an index.
@@ -168,6 +180,7 @@ public class MyArrayList<E> implements ArrayInterface<E> {
         return false;
     }
 
+
     /**
      * Method that removes the last element.
      *
@@ -189,36 +202,55 @@ public class MyArrayList<E> implements ArrayInterface<E> {
         return false;
     }
 
+
     /**
-     * Method that Checks whether an element exists in the ArrayList.
+     * Returns {@code true} if this stack contains the specified element.
      *
-     * @param o The element target.
-     * @return True or False
+     * @param o the element whose presence in this stack is to be tested
+     * @return {@code true} if this stack contains the specified element; {@code false} otherwise
+     * @throws ArrayException if an error occurs while checking containment
      */
     @Override
     public boolean contains(final Object o) throws ArrayException {
-        // Read the Array
-        for (int index = 0; index < getSize(); index++)
-            // Condition to check if one of the index match
-            // if yes stop the array immediately, if no keep looking.
-            if (java.util.Objects.equals(elements[index], o))
-                return  true;
-        // return false if any index matched
+        // Search through the valid elements in the stack
+        for (int index = 0; index < getSize(); index++) {
+            // Check if the current element matches the target object
+            if (java.util.Objects.equals(elements[index], o)) {
+                return true;
+            }
+        }
+
+        // Return false if the element is not found
         return false;
     }
 
+
     /**
-     * compares element e with the elements in the array, <br>
-     * starting from the first one. <br>
-     * If a match is found, the index of the element is returned;<br>
-     * Otherwise, −1 is returned.
+     * Returns the index of the first occurrence of the specified element
+     * in this stack, or -1 if this stack does not contain the element.
      *
-     * @param o
+     * @param o the element to search for
+     * @return the index of the first occurrence of the specified element, or -1 if not found
      */
     @Override
     public int indexOf(Object o) {
-        return 0;
+        // Check if the stack is empty or the target object is null
+        if (isEmpty() || o == null) {
+            return -1;
+        }
+
+        // Search through the valid elements in the stack
+        for (int index = 0; index < getSize(); index++) {
+            // Check if that current element match the target
+            if (java.util.Objects.equals(elements[index], o)) {
+                return index; // Return the 0-based index
+            }
+        }
+
+        // Return -1 if the element is not found
+        return -1;
     }
+
 
     /**
      * Compares element e with the elements in the array, <br>
@@ -234,11 +266,17 @@ public class MyArrayList<E> implements ArrayInterface<E> {
         return 0;
     }
 
+
     /**
-     * Method that get and return an element at a specific location.<br>
-     * Time complexity is 0(1).
-     * @param index The element location.
+     * Returns the element at the specified position in this stack.
+     * <p>
+     * Time complexity is O(1).
+     *
+     * @param index the index of the element to return
+     * @return the element at the specified position in this stack
+     * @throws IndexOutOfBoundsException if the index is out of range
      */
+    @SuppressWarnings("unchecked")
     @Override
     public E get(int index) {
         // Check if the index is outside the logical size
@@ -252,88 +290,116 @@ public class MyArrayList<E> implements ArrayInterface<E> {
 
 
     /**
-     * Method that retrieve and display the last element of the ArrayList.
+     * Returns the last element in this stack.
      *
-     * @return An E type of the element list.
+     * @return the last element in this stack
+     * @throws NoSuchElementException if this stack is empty
      */
+    @SuppressWarnings("unchecked")
     @Override
     public E getLast() {
-        // Check if the list is empty before
-        if (isEmpty())
-            throw new NoSuchElementException("ArrayList is empty");
+        // Check if the stack is empty before retrieving
+        if (isEmpty()) {
+            throw new NoSuchElementException("The stack is empty.");
+        }
+
         // Return the last value of the array
         return (E) elements[getSize() - 1];
     }
 
 
     /**
-     * Method that retrieve and display the First element of the ArrayList.
+     * Returns the first element in this stack.
      *
-     * @return An E type of the element list.
+     * @return the first element in this stack
+     * @throws NoSuchElementException if this stack is empty
      */
+    @SuppressWarnings("unchecked")
     @Override
     public E getFirst() {
-        // Check if the list is empty before
-        if (isEmpty())
-            throw new NoSuchElementException("ArrayList is empty");
-        // Return the last value of the array
+        // Check if the stack is empty before retrieving
+        if (isEmpty()) {
+            throw new NoSuchElementException("The stack is empty.");
+        }
+
+        // Return the first element of the array
         return (E) elements[0];
     }
 
 
     /**
-     * Method that check if the ArrayList is Empty.
+     * Checks if this stack is empty.
      *
-     * @return True or False.
+     * @return {@code true} if this stack is empty; {@code false} otherwise
      */
     @Override
-    public Boolean isEmpty() { return getSize() == 0; }
-
-    /**
-     * Method that check if the ArrayList is full.
-     *
-     * @return True or False.
-     */
-    @Override
-    public Boolean isFull() { return getSize() == capacity; }
+    public Boolean isEmpty() {
+        return getSize() == 0;
+    }
 
 
     /**
+     * Checks if this stack is full.
      *
-     * @param capacity
-     * @throws ArrayException
+     * @return {@code true} if this stack is full; {@code false} otherwise
+     */
+    @Override
+    public Boolean isFull() {
+        return getSize() == capacity;
+    }
+
+
+    /**
+     * Sets the maximum capacity of this stack.
+     *
+     * @param capacity the new capacity to set
+     * @throws ArrayException if the specified capacity is less than or equal to 0
      */
     private void setCapacity(int capacity) throws ArrayException {
-        if (capacity <= 0)
+        if (capacity < 1)
             throw new ArrayException("Capacity must be greater than 0.");
         this.capacity = capacity;
     }
 
-    /**
-     *
-     * @param size
-     */
-    private void setSize(int size) { this.size = size; }
 
     /**
+     * Sets the current size of this stack.
      *
-     * @param capacity
+     * @param size the new size to set
+     */
+    private void setSize(int size) {
+        this.size = size;
+    }
+
+
+    /**
+     * Initializes or updates the underlying array with the specified capacity.
+     *
+     * @param capacity the maximum capacity for the underlying array
      */
     private void setElements(final int capacity) {
+        // Check the capacity range
+        if (capacity < 1)
+            throw new RuntimeException("Capacity cannot be a negative number..");
         this.elements = new Object[capacity];
     }
 
 
     /**
-     * Method to get the ArrayList size
+     * Returns the number of elements in this stack.
+     *
+     * @return the number of elements in this stack
      */
     @Override
-    public int getSize() { return size; }
+    public int getSize() {
+        return size;
+    }
 
 
     /**
-     * Removes all elements from the array list and resets
-     * its capacity to the default capacity.
+     * Removes all elements from the stack and resets its capacity to the default capacity.
+     *
+     * @throws ArrayException if an error occurs while clearing the stack
      */
     @Override
     public void clear() throws ArrayException {
@@ -352,5 +418,45 @@ public class MyArrayList<E> implements ArrayInterface<E> {
             IO.println(elements[index]);
         }
     }
+
+    /**
+     * Returns an iterator over the elements in this stack in proper sequence.
+     *
+     * @return an iterator over the elements in this stack in proper sequence
+     */
+    @Override
+    public Iterator<E> iterator() {
+        return new Iterator<>() {
+            // Index of the next element to return
+            private int current = 0;
+
+            /**
+             * Returns {@code true} if the iteration has more elements.
+             *
+             * @return {@code true} if the iteration has more elements
+             */
+            @Override
+            public boolean hasNext() {
+                return current < getSize();
+            }
+
+            /**
+             * Returns the next element in the iteration.
+             *
+             * @return the next element in the iteration
+             * @throws java.util.NoSuchElementException if the iteration has no more elements
+             */
+            @SuppressWarnings("unchecked")
+            @Override
+            public E next() {
+                if (!hasNext()) {
+                    throw new java.util.NoSuchElementException("No more elements in the stack.");
+                }
+                // Return the current element and then advance the pointer
+                return (E) elements[current++];
+            }
+        };
+    }
+
 
 }

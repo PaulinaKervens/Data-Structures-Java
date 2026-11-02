@@ -1,10 +1,10 @@
 package LinkedList.src;
 
-import LinkedList.src.kerv.SingleLinkedList.MyLinkedList;
+import LinkedList.src.kerv.DoublyLinkedList.MyLinkedList;
 
 import java.util.LinkedList;
 
-public class SingleLinkedListMain {
+public class DoublyLinkedListMain {
 
     static void main(String[] args) {
 

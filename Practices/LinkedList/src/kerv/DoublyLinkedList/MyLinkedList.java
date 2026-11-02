@@ -1,18 +1,64 @@
-package LinkedList.src.kerv.SingleLinkedList;
+/**
+ * @Author: (Kerv) Kervens Paulina
+ * @Created: November 2, 2026
+ *
+ * Project: Circular Doubly Linked List Implementation
+ *
+ * Description:
+ * This project implements a generic circular doubly linked list from scratch
+ * using Java. Each node stores an element and maintains references to both
+ * the previous and next nodes, allowing traversal in both directions.
+ *
+ * The circular structure ensures that the last node points back to the head,
+ * while the head's previous reference points to the tail.
+ *
+ * The implementation provides fundamental linked list operations, including
+ * insertion, removal, traversal, and conversion to an array. It also maintains
+ * head, tail, and size references to manage the collection efficiently.
+ *
+ * @param <E> the type of elements stored in the linked list
+ *
+ * @see java.util.LinkedList
+ * @see Node
+ * @see #add(Object)
+ * @see #add(Object, int)
+ * @see #removeAt(int)
+ * @see #getNodeAt(int)
+ * @see #toArray()
+ */
 
+package LinkedList.src.kerv.DoublyLinkedList;
 
+/**
+ * Double Circular Linked List.
+ *
+ * @param <E>
+ */
 public class MyLinkedList<E> {
-
+    /** The current number of elements contained in the list. */
     private int size;
+
+    /** Reference to the first node (head) of the list. */
     private Node<E> head;
+
+    /** Reference to the last node (tail) of the list. */
     private Node<E> tail;
 
+    /**
+     * Constructs an empty circular doubly linked list,
+     * initializing size to 0 and head/tail pointers to null.
+     */
     public MyLinkedList() {
         this.setSize(0);
         this.setHead(null);
         this.setTail(null);
     }
 
+    /**
+     * Constructs a circular doubly linked list initialized with a single starting item.
+     *
+     * @param item the initial element to add to the list
+     */
     public MyLinkedList(E item) {
         this.add(item);
     }
@@ -22,7 +68,8 @@ public class MyLinkedList<E> {
      * <p>
      * Appends the specified element to the end of this circular doubly linked list. <br>
      * The list maintains a continuous ring structure where the last node links
-     * forward to the head, and the head's previous pointer links backward to the tail.
+     * forward to the head, and the head's previous pointer links backward to the tail.<br>
+     * O(1) time complexity, Inserts at the tail using the tail reference..
      * </p>
      *
      * @param item the element to be added to the list
@@ -70,6 +117,7 @@ public class MyLinkedList<E> {
     /**
      * Method that insert a new node to the list at a position given.
      * <p>
+     * O(n) time complexity, may need to traverse the list to find the insertion position.
      * @param item the element to be added to the list
      * @param position Where to add that element
      * @return {@code true} if the item was successfully added,
@@ -149,7 +197,8 @@ public class MyLinkedList<E> {
      * <p>
      * This method removes the tail node from the circular doubly linked list
      * and updates the surrounding references to maintain the circular structure.
-     * If the list contains only one element, it resets the list to its initial state.
+     * If the list contains only one element, it resets the list to its initial state.<br>
+     * O(1) time complexity, removes the tail directly using the tail reference.
      * </p>
      *
      * @return the element stored in the removed node, or {@code null} if the list is empty
@@ -189,13 +238,104 @@ public class MyLinkedList<E> {
         return element.getItem();
     }
 
+    /**
+     * Removes the element at the specified position.
+     * <p>
+     * This method removes a node from the circular doubly linked list
+     * and updates the surrounding references to maintain the circular structure.
+     * It handles four cases:
+     * <ul>
+     *     <li>If the list contains only one element, it resets the list.</li>
+     *     <li>If removing the head, it updates the head reference.</li>
+     *     <li>If removing the tail, it updates the tail reference.</li>
+     *     <li>If removing from the middle, it reconnects the adjacent nodes.</li>
+     * </ul>
+     * O(n)	time complexity, may need to traverse the list to find the node.
+     * </p>
+     *
+     * @param position the 1-based position of the element to remove
+     * @return the element stored in the removed node, or {@code null}
+     *         if the list is empty or the position is invalid
+     */
+    public E removeAt(int position) {
+        // Check if the list is empty or invalid position
+        if (isEmpty() || (position > getSize() || position < 1))
+            return null;
 
+        // Get the node at the position
+        Node<E> targetNode = getNodeAt(position);
 
-    /*
-    public MyLinkedList<E> reversed() {
+        // Case 1: If list contain a single element
+        if (getSize() == 1) {
+            // Just call clear method
+            clear();
+            // Return the element
+            return targetNode.getItem();
+        }
+        // Case 2: if the target is the head
+        else if (position == 1){
+            // get the next node after the target node
+            Node<E> targetNext = targetNode.getNext();
 
-        return ;
-    }*/
+            // Update the next node after the target node previous pointer
+            targetNext.prev = tail;
+            // Update tail next pointer to point to the target next
+            tail.next = targetNext;
+
+            // Update head to be the node that after the target
+            head = targetNext;
+        }
+        // Case 3: if the target is in the middle or is the tail
+        else {
+            // Get the node before it
+            Node<E> targetPrev = targetNode.getPrev();
+
+            // get the node after it
+            Node<E> targetNext = targetNode.getNext();
+
+            // Update the surrounding node pointers
+            targetPrev.next = targetNext;
+            targetNext.prev = targetPrev;
+
+            // Inner case: Update tail only if removing the last node
+            if (position == size) {
+                // Update tail to be the node before that the target
+                tail = targetPrev;
+            }
+        }
+
+        // Detach the removed node
+        targetNode.next = null;
+        targetNode.prev = null;
+
+        // Decrease the size
+        size--;
+
+        // Return the element removed
+        return targetNode.getItem();
+    }
+
+    /**
+     * Retrieves, but does not remove, the last element (tail) of this list.
+     * <p>
+     * This method accesses the element stored in the tail node without
+     * modifying the list structure or its size. <br>
+     * O(1) time complexity.
+     * </p>
+     *
+     * @return the last element in the list, or {@code null} if the list is empty
+     *
+     * @see #removeLast()
+     * @see #getTail()
+     */
+    public E peek() {
+        // Check if the list contains any elements
+        if (isEmpty())
+            return null;
+
+        // Return the data item stored in the tail node without removing it
+        return tail.getItem();
+    }
 
 
     /**
@@ -206,6 +346,7 @@ public class MyLinkedList<E> {
      *   <li>Initializing {@link #head} to {@code null}.</li>
      *   <li>Setting {@link #size} to 0.</li>
      * </ul>
+     * O(1)	time complexity, resets head, tail, and size without traversing nodes.
      * </p>
      */
     public void clear() {
@@ -216,6 +357,9 @@ public class MyLinkedList<E> {
 
     /**
      * Method that retrieve the node at a position given.
+     * <p>
+     * O(n) time complexity, may traverse up to the requested position.
+     * </p>
      *
      * @param position Position where to remove the element, must be a positive number and list length inclusive;
      * @return A node from the position given.
@@ -238,6 +382,9 @@ public class MyLinkedList<E> {
 
     /**
      * Method that returns the array form of the list data.
+     * <p>
+     *     O(n)	time complexity, visits every node once.
+     * </p>
      *
      * @return An array of list data ordered the same as the list.
      */
@@ -263,7 +410,7 @@ public class MyLinkedList<E> {
 
     /**
      * Checks if the list is currently empty.
-     *
+     * <p>O(1) time complexity, checks whether size == 0.</p>
      * @return {@code true} if the list contains no elements, {@code false} otherwise
      */
     public boolean isEmpty() { return size == 0; }
@@ -291,7 +438,7 @@ public class MyLinkedList<E> {
 
     /**
      * Returns the current number of elements in the list.
-     *
+     * <p>O(1) time complexity, returns the stored size.</p>
      * @return the size of the list
      */
     public int getSize() { return size; }
@@ -313,7 +460,9 @@ public class MyLinkedList<E> {
     /**
      * Method that returns a String that represents the
      * content of the list.
-     *
+     * <p>
+     *     O(n) time complexity, visits every element once, assuming each element's string conversion is O(1).
+     * </p>
      * @return String list content.
      */
     @Override

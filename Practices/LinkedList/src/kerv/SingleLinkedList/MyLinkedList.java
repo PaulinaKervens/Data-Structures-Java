@@ -56,6 +56,9 @@ public class MyLinkedList<E> {
             // Update the surrounding nodes
             tail.next = newNode;
             head.prev = newNode;
+
+            // Update tail
+            tail = newNode;
         }
 
         // increase the size
@@ -72,7 +75,7 @@ public class MyLinkedList<E> {
      * @return {@code true} if the item was successfully added,
      *         or {@code false} if the provided item is null
      */
-    private boolean add(E item, int position) {
+    public boolean add(E item, int position) {
         // Check if the item is not null and position is valid
         if (item == null || position < 1 || position > size + 1)
             return false;
@@ -141,11 +144,81 @@ public class MyLinkedList<E> {
         return true;
     }
 
+    /**
+     * Removes the last element from the list.
+     * <p>
+     * This method removes the tail node from the circular doubly linked list
+     * and updates the surrounding references to maintain the circular structure.
+     * If the list contains only one element, it resets the list to its initial state.
+     * </p>
+     *
+     * @return the element stored in the removed node, or {@code null} if the list is empty
+     */
+    public E removeLast() {
+        // Check if the list is not empty
+        if (isEmpty())
+            return null;
+
+        Node<E> element = getNodeAt(getSize());
+
+        // Case 1: If the list contain only one element
+        if (getSize() == 1) {
+            // Just call clear method
+            clear();
+            // Return the element
+            return element.getItem();
+        }
+        // Case 2: if the list contain multiple element
+        else {
+            Node<E> prevElement = element.getPrev();
+
+            // Update the element previous and last
+            element.prev = null;
+            element.next = null;
+
+            // Update the element next pointer that is before the last node we removing
+            prevElement.next = head;
+            // Update head
+            head.prev = prevElement;
+
+        }
+
+        // Decrease size
+        size--;
+
+        return element.getItem();
+    }
+
+
+
+    /*
+    public MyLinkedList<E> reversed() {
+
+        return ;
+    }*/
+
 
     /**
+     * Removes all items from the list.
      *
-     * @param position
-     * @return
+     * <p>This method resets the list to its initial state by:
+     * <ul>
+     *   <li>Initializing {@link #head} to {@code null}.</li>
+     *   <li>Setting {@link #size} to 0.</li>
+     * </ul>
+     * </p>
+     */
+    public void clear() {
+        setSize(0);
+        setHead(null);
+        setTail(null);
+    }
+
+    /**
+     * Method that retrieve the node at a position given.
+     *
+     * @param position Position where to remove the element, must be a positive number and list length inclusive;
+     * @return A node from the position given.
      */
     public Node<E> getNodeAt(int position) {
         // Check if the item is not null and position is valid
@@ -163,6 +236,11 @@ public class MyLinkedList<E> {
         return walker;
     }
 
+    /**
+     * Method that returns the array form of the list data.
+     *
+     * @return An array of list data ordered the same as the list.
+     */
     public Object[] toArray() {
         // Check if the list is not empty
         if (isEmpty())
@@ -174,6 +252,7 @@ public class MyLinkedList<E> {
         // Get the head of the list to
         Node<E> walker = head;
 
+        // Walk through the list
         for (int index = 0; index < getSize(); index++) {
             array[index] = walker.getItem();
             walker = walker.getNext();
@@ -231,6 +310,12 @@ public class MyLinkedList<E> {
      */
     private Node<E> getTail() { return tail; }
 
+    /**
+     * Method that returns a String that represents the
+     * content of the list.
+     *
+     * @return String list content.
+     */
     @Override
     public String toString() {
         // Check the list
@@ -250,6 +335,8 @@ public class MyLinkedList<E> {
         // Return the result
         return result.toString();
     }
+
+
 
     /**
      * Nested node class representing an individual element in the circular doubly linked list.

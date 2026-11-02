@@ -1,3 +1,17 @@
+/**
+ * A custom generic Array implementation backed by a dynamically resizing array,
+ * designed with strict encapsulation and robust error handling.
+ *
+ * @author Kervens Paulina
+ * @desc A high-performance generic stack data structure supporting standard LIFO operations,
+ *       dynamic capacity scaling, and type-safe iteration.
+ * @date October 2026
+ * @see java.util.Collection
+ *
+ * @param <E> the type of elements maintained in this stack
+ */
+
+
 package kerv.bhcc.MyArrayList;
 
 

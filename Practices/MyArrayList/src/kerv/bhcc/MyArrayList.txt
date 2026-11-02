@@ -12,7 +12,7 @@ remove(Object o)	        Removes the first matching element	        list.remove(
 removeLast()                Remove the last element                     list.removeLast();              Completed
 size()	                    Returns the number of elements	            list.size();                    Completed
 isEmpty()	                Checks whether the list is empty	        list.isEmpty();                 Completed
-clear()	                    Removes all elements	                    list.clear();
+clear()	                    Removes all elements	                    list.clear();                   Completed
 contains(Object o)	        Checks whether an element exists	        list.contains("A");             Completed
 indexOf(Object o)	        Returns the first matching index, or -1	    list.indexOf("B");
 lastIndexOf(Object o)	    Returns the last matching index, or -1	    list.lastIndexOf("B");

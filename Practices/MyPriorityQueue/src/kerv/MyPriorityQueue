@@ -1,0 +1,19 @@
+                          Priority Queue Implement By Heap
+
+--------------------------------------------------------------------------------------------
+Operation	                    Responsibility                                  Status
+--------------------------------------------------------------------------------------------
+Insert	                        Add a key-value pair
+Peek	                        Examine the highest-priority entry
+Remove	                        Remove the highest-priority entry
+Heapify Up	                    Restore order after insertion
+Heapify Down	                Restore order after removal
+IsEmpty	                        Check whether the structure is empty
+Size	                        Return the number of entries
+
+
+
+
+
+
+

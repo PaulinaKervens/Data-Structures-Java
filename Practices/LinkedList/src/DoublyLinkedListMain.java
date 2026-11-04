@@ -8,9 +8,6 @@ public class DoublyLinkedListMain {
 
     static void main(String[] args) {
 
-        LinkedList<Integer> l = new LinkedList<>();
-
-
         MyLinkedList<Integer> myLinkedList = new MyLinkedList<>();
         myLinkedList.add(1);
         myLinkedList.add(2);
@@ -18,9 +15,6 @@ public class DoublyLinkedListMain {
         myLinkedList.add(4);
         myLinkedList.add(5);
         myLinkedList.add(6);
-
-        myLinkedList.removeLast();
-
 
         for (Object a: myLinkedList.toArray()) {
             IO.println(a);

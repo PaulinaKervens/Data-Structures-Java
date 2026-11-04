@@ -1,10 +1,13 @@
+package LinkedList.src.kerv.DoublyLinkedList;
+
+
 /**
  * @Author: (Kerv) Kervens Paulina
  * @Created: November 2, 2026
  *
- * Project: Circular Doubly Linked List Implementation
+ * @Project: Circular Doubly Linked List Implementation
  *
- * Description:
+ * @Description:
  * This project implements a generic circular doubly linked list from scratch
  * using Java. Each node stores an element and maintains references to both
  * the previous and next nodes, allowing traversal in both directions.
@@ -27,13 +30,6 @@
  * @see #toArray()
  */
 
-package LinkedList.src.kerv.DoublyLinkedList;
-
-/**
- * Double Circular Linked List.
- *
- * @param <E>
- */
 public class MyLinkedList<E> {
     /** The current number of elements contained in the list. */
     private int size;
@@ -336,6 +332,7 @@ public class MyLinkedList<E> {
         // Return the data item stored in the tail node without removing it
         return tail.getItem();
     }
+
 
 
     /**

@@ -1,19 +1,24 @@
 package Kerv.SetProject;
 
 /**
+ * Abstract base class providing common functionality
+ * for Set implementations.
  *
- * @param <E>
- *
+ * @param <E> the type of elements maintained by this set
  * @author Kerv Paulina
- * @since Mon, Nov 23 2026
+ * @since Nov 23, 2026
  */
 public abstract class AbstractSet<E extends Comparable<E>>
 implements SetADT<E> {
+
     /** Attribute that store the value of element Set size */
     protected int count;
 
+    /**
+     * No-args constructor
+     */
     public AbstractSet() {
-        this.count = 0;
+        this.count = 0;     // initialize count
     }
 
     /**
@@ -75,10 +80,10 @@ implements SetADT<E> {
     }
 
     /**
-     * Method that make the class iterable.
-     * @return
+     * Returns an iterator over the elements in this set.
+     *
+     * @return an iterator over the elements in this set.
      */
     @Override
     public abstract java.util.Iterator<E> iterator();
-
 }

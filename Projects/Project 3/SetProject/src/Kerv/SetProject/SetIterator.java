@@ -32,7 +32,7 @@ public class SetIterator<E> implements Iterator<E> {
      */
     public SetIterator(E[] elements, int size) {
         // Validate that the backing array is non-null and contains at least one element
-        if (elements == null || size < 1)
+        if (elements == null || size < 0)
             throw new IllegalArgumentException("Illegal argument throw, element != null and size > 0");
 
         this.elements = elements;
@@ -49,8 +49,8 @@ public class SetIterator<E> implements Iterator<E> {
      */
     @Override
     public boolean hasNext() {
-        // TODO
-        return false;
+        // Index of the next element to return
+        return current < size;
     }
 
     /**
@@ -61,11 +61,11 @@ public class SetIterator<E> implements Iterator<E> {
      */
     @Override
     public E next() {
-        // TODO:
         // Throw NoSuchElementException if no element remains.
-        // Return the next element.
-        // Advance current.
+        if (!hasNext())
+            throw new NoSuchElementException("No more element in the array");
 
-        return null;
+        // Return the next element and Advance current.
+        return elements[current++];
     }
 }

@@ -9,11 +9,10 @@ package Kerv.SetProject;
  */
 public abstract class AbstractSet<E extends Comparable<E>>
 implements SetADT<E> {
-
+    /** Attribute that store the value of element Set size */
     protected int count;
 
     public AbstractSet() {
-        // TODO
         this.count = 0;
     }
 
@@ -72,11 +71,11 @@ implements SetADT<E> {
      */
     @Override
     public void clear() {
-
+        this.count = 0;
     }
 
     /**
-     *
+     * Method that make the class iterable.
      * @return
      */
     @Override

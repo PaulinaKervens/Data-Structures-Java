@@ -45,13 +45,13 @@ public class ArraySet<E extends Comparable<E>> extends AbstractSet<E> {
             expandCapacity();
 
 
-        // 4. Find correct sorted position.
+        /*// 4. Find correct sorted position.
         for (int index = 0; index < count -1; index++) {
             if (elements[index].compareTo(element)) {
 
             }
         }
-
+*/
 
         // 5. Shift elements to make room.
 
@@ -64,17 +64,39 @@ public class ArraySet<E extends Comparable<E>> extends AbstractSet<E> {
         return true;
     }
 
-    private void sort() {
+    /*private void sort() {
         for (int index = 0; index < count -1; index++) {
             if (elements[index].compareTo(index++) == 1) {
 
             }
         }
-    }
+    }*/
 
 
+    //
+
+    /**
+     * Helper method that swap two elements place.
+     *
+     * @param index1 First element index.
+     * @param index2 Second element index
+     * @return true if the swap was successful; otherwise false.
+     */
     private boolean swap(int index1, int index2) {
+        // Check if both index arg are in a valid array indices
+        if (index1 < 0 || index2 < 0)
+            return false;
+
+        // Temporarily store the element at index1 so it isn't overwritten
+        E element = elements[index1];
+
+        // Move the element from index2 into index1
         elements[index1] = elements[index2];
+
+        // Place the saved element into index2
+        elements[index2] = element;
+
+        // Indicate that the swap completed
         return true;
     }
 

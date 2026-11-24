@@ -14,6 +14,7 @@ implements SetADT<E> {
 
     public AbstractSet() {
         // TODO
+        this.count = 0;
     }
 
     /**
@@ -74,6 +75,10 @@ implements SetADT<E> {
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public abstract java.util.Iterator<E> iterator();
 

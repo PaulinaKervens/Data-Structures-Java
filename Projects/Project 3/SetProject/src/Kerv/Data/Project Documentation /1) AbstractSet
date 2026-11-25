@@ -1,0 +1,27 @@
+====================================================================
+                        AbstractSet
+====================================================================
+
+AbstractSet: Is a base class providing common functionality for Set implementations.
+             It is a generic class that requires its elements to implement the Comparable<E>
+             interface. It also implements the SetADT<E> interface.
+             It provides shared functionality such as tracking the number of elements (private int count),
+             checking whether the set is empty (boolean isEmpty()), returning the set size (int size()),
+             and clearing the set (void clear()). Concrete subclasses are responsible for implementing
+             the element specific operations, such as add(), remove(), contains(), and iterator().
+
+Attribute
+----------------------------------------------
+    - **count - int : Attribute that track how many element the Set contains.
+
+
+Method
+---------------------------------------------------------------------------------------------
+    - **AbstractSet() - No-type : No-argument constructor that initializes the [count] attribute to zero.
+    - **remove(E element) - boolean : Abstract method that removes the specified element from the set if it is present.
+    - **contains(E element) - boolean : Abstract method that checks whether the specified element exists in the set.
+    - **contains(E element) - boolean : Abstract method that checks whether the specified element exists in the set.
+    - **size() - int : Method that returns the number of elements in the set.
+    - **isEmpty() - boolean : Method that checks whether the set contains no elements.
+    - **clear() - void : Method that removes all elements from the set by resetting the [count] attribute.
+    - **iterator() - Iterator<E> : Abstract method that returns an iterator over the elements in the set.

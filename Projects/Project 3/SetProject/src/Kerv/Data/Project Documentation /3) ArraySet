@@ -1,0 +1,66 @@
+============================================================================
+                            ArraySet
+============================================================================
+
+Class Description
+--------------------------------------------------------------------------
+The 'ArraySet' class provides the main implementation of the Set ADT using a
+dynamic array. It extends the 'AbstractSet' class and stores elements in ascending
+order based on their natural ordering through the `Comparable` interface.
+The class prevents duplicate elements, automatically increases its capacity when the
+array becomes full, and supports basic set operations such as adding, removing, searching,
+and clearing elements. It also implements an iterator to allow sequential access to the elements.
+Type Parameter - (E) The type of elements stored in the set. Elements must implement 'Comparable'
+to determine their natural ordering.
+
+Attributes
+---------------------------------------------------
+    - elements: The array used to store the elements of the set.
+    - capacity: The current maximum number of elements the array can hold.
+
+
+Methods
+-----------------------------------------------------------------------------------
+1. add(E element): Adds a new element to the set if it is not null and does not already exist.
+                    It expands the array when necessary, finds the correct position to maintain
+                    ascending order, shifts existing elements, and inserts the new element.
+                    - Parameter: 'element' – the element to be added.
+                    - Returns: 'true' if the element was successfully added; otherwise, 'false'.
+
+2. expandCapacity(): Increases the array capacity by doubling its current size. It creates a new array,
+                     copies the existing elements, and updates the backing array and capacity.
+
+3. contains(E element): Searches the set to determine whether the specified element exists.
+                    - Parameter: 'element' – the element to search for.
+                    - Returns: 'true' if the element exists; otherwise, 'false'.
+
+4. remove(E element): Removes the specified element from the set if it exists. It shifts the remaining elements
+                    to the left to fill the empty position and updates the element count.
+                    - Parameter: 'element' – the element to be removed.
+                    - Returns: 'true' if the element was successfully removed; otherwise, 'false'.
+
+5. clear(): Removes all elements from the set, resets the element count to zero, and restores the
+            initial array capacity of 10.
+
+6. iterator(): Creates and returns a custom 'SetIterator' to traverse the elements stored in the set.
+            - Returns an iterator over the elements in the set.
+
+7. getCapacity(): Returns the current capacity of the backing array.
+                - Returns the maximum number of elements the array can currently hold.
+
+8. getIndexOf(E element): Searches for the specified element and returns its position in the backing array.
+                          - Parameter 'element' – the element whose position is being searched for.
+                          - Returns the index of the element if found; otherwise, '-1'.
+
+9. toString(): Returns a readable string representation of the elements stored in the set. It uses the iterator
+               to access each element and display the collection's contents.
+               - Returns a string containing all elements in the set.
+
+10. ArraySet() : Constructor, it initializes an empty set with an initial capacity of 10. It
+             creates the backing array and sets the element count to zero.
+
+Purpose
+------------------------------------------------------------------------------------------------------------
+The purpose of this class is to provide a dynamic array-based implementation of the Set ADT. It maintains
+unique elements in ascending order while managing storage automatically and providing the operations needed
+to manipulate and access the collection.

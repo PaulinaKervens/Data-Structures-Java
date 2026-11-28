@@ -1,0 +1,54 @@
+# Main.java
+
+## Class Description
+
+The `Main` class serves as the entry point of the program. It is responsible for reading student records from a text file, processing the data, and demonstrating the functionality of the `ArraySet`.
+
+The class reads each student record, extracts the ID, name, and GPA, and creates a `Student` object. It then adds the student to the set, where duplicate IDs are automatically rejected.
+
+The program also demonstrates displaying students, searching for a student, removing a student, and checking the total number of elements and array capacity.
+
+**Author:** Kerv Paulina
+
+**Since:** November 27, 2026
+
+## Attributes
+
+- **filename:** Stores the relative path to the student data file used by the program.
+
+## Methods
+
+### 1. main(String[] args)
+
+The main method serves as the starting point of the program. It creates a `Main` object, reads the student records from the specified file, and passes the data to the `runner()` method.
+
+- **Parameter:** `args` – command-line arguments passed to the program.
+- **Throws:** `FileNotFoundException` if the specified file cannot be found.
+
+### 2. runner(String[] data)
+
+Processes the student records extracted from the file. It separates each record into individual values, validates the data, creates `Student` objects, and adds them to the `ArraySet`.
+
+It also displays the students, demonstrates searching for student ID 1005, removes student ID 1003, and displays the updated set.
+
+- **Parameter:** `data` – an array containing the student records read from the file.
+
+### 3. readFile(String filename)
+
+Reads the contents of the specified text file and stores each non-empty line in an `ArrayList`. It then converts the records into a string array for further processing.
+
+- **Parameter:** `filename` – the path to the student data file.
+- **Returns:** An array containing the student records.
+- **Throws:** `FileNotFoundException` if the file cannot be found.
+
+### 4. connectFile(String filename)
+
+Creates a `File` object using the specified filename and checks whether the file exists and is a valid file before returning it.
+
+- **Parameter:** `filename` – the path to the file to be opened.
+- **Returns:** A `File` object if the file exists and is valid.
+- **Throws:** `FileNotFoundException` if the file does not exist or is not a valid file.
+
+## Purpose
+
+The purpose of this class is to connect the student data file with the Set ADT implementation. It provides a practical demonstration of how the `ArraySet` manages student records while maintaining unique elements in ascending order by student ID.

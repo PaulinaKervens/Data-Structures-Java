@@ -1,0 +1,35 @@
+====================================================================
+                            SetIterator
+====================================================================
+
+Class Description
+--------------------------------------------------------------------------
+The 'SetIterator' class implements a custom iterator for traversing the elements
+stored in the 'ArraySet'. It implements Java's 'Iterator' interface, allowing the
+set to be accessed one element at a time, from the first element to the last.
+
+The class keeps track of the current position and the number of elements to determine
+when the iteration is complete.
+Type Parameter: 'E': The type of elements stored in the set.
+
+Attributes
+--------------------------------------------------------------------------
+    - **elements: The array containing the elements being traversed.
+    - **current: The index of the next element to be returned.
+    - **size: The total number of active elements available for iteration.
+
+Methods
+--------------------------------------------------------------------------
+    1. Constructor: SetIterator(E[] elements, int size) : Initializes the iterator with the array
+                                                          and the number of active elements. The current index starts at zero.
+                                                          Throws 'IllegalArgumentException' if the array is null or the size is negative.
+
+    2. hasNext(): Checks whether another element is available in the array. Returns 'true' if more elements are available;
+                    otherwise, 'false'.
+
+    3. next(): Returns the next element in the iteration and advances the current index. Returns the next element in the array. Throws 'NoSuchElementException'
+               if no more elements are available.
+
+Purpose
+-------------------------------------------------------------------------------------------
+The purpose of this class is to provide sequential access to the elements stored in the set. It allows `ArraySet` to support iteration through an enhanced for-loop without exposing the internal array directly.

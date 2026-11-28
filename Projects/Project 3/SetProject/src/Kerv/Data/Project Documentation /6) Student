@@ -1,0 +1,53 @@
+====================================================================
+                        Student
+====================================================================
+
+Class Description
+---------------------------------------------------------------------
+The 'Student' class represents a student with an ID, name, and GPA.
+It implements the `Comparable<Student>` interface to compare students
+by their ID and determine their position in the set.
+The class also overrides the 'equals()' and 'hashCode()' methods to identify
+students using their ID. This ensures that two students with the same ID are
+considered equal, even if their names or GPAs are different.
+
+Attributes
+---------------------------------------------------------------------
+    - **id: Stores the student's unique identification number.
+    - **name: Stores the student's full name.
+    - **gpa: Stores the student's grade point average.
+
+
+
+Methods
+---------------------------------------------------------------------
+1. Student(int id, String name, double gpa) : Constructor, creates a new Student object using the provided ID, name, and GPA.
+                                              - 'id': The student's identification number.
+                                              - 'name': The student's full name.
+                                              - 'gpa': The student's grade point average.
+
+2. compareTo(Student other) : Compares two students based on their IDs to determine their order in the set.
+                              The comparison maintains ascending order by student ID.
+                              Returns a negative value if this student's ID is smaller, a positive value if
+                              it is larger, or zero if both IDs are equal.
+
+3. equals(Object obj) : Checks whether two Student objects represent the same student. Two students are considered equal if they
+                        have the same ID, regardless of their names or GPAs.
+                        'obj' – the object to compare with this student.
+                        Returns 'true' if both objects have the same student ID; otherwise, 'false'.
+
+4. hashCode(): Generates a hash code based on the student's ID. This keeps the hash code consistent with the 'equals()' method.
+                Returns the hash code of the student's ID.
+
+5. toString(): Returns a readable representation of the student's information, including their ID, name, and GPA.
+               Returns a formatted string containing the student's details.
+
+6. Getters : Provides access to the student's private attributes:
+    - getId(): Returns the student's ID.
+    - getName(): Returns the student's name.
+    - getGpa(): Returns the student's GPA.
+
+Purpose
+------------------------------------------------------------------
+The purpose of this class is to represent student records and provide the comparison and equality rules needed by the
+ArraySet. Students are sorted by ID in ascending order, and duplicate IDs are rejected.

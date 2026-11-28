@@ -1,0 +1,60 @@
+============================================================================================
+                                    SetProject
+============================================================================================
+This project implements a generic Set Abstract Data Type (ADT) using a dynamic array.
+The set stores unique elements and maintains them in ascending order using the 'Comparable' interface.
+The program reads student records from a text file, stores them in the set, prevents duplicate student
+IDs, and demonstrates basic set operations such as adding, searching, removing, and iterating through elements.
+
+
+
+Class
+------------------------------------------------------------------------------------------
+1. SetADT: An interface that defines the basic operations supported by the Set ADT, including
+            adding, removing, searching, checking the size, checking whether the set is empty,
+            and clearing the set. It also extends `Iterable` to allow elements to be accessed
+            using an enhanced for-loop.
+
+2. AbstractSet: A base class that provides common functionality for set implementations.
+            It maintains the number of elements in the set and implements shared methods such
+            as 'size()' and 'isEmpty()'.
+
+3. ArraySet: The main implementation of the Set ADT. It uses a dynamic array to store elements
+            in ascending order. It prevents duplicate elements, automatically expands its capacity
+            when necessary, and supports adding, removing, searching, and clearing elements.
+
+4. SetIterator: A custom iterator that allows elements to be accessed one at a time, starting
+            from the first element and continuing to the last. It implements 'hasNext()' and 'next()'
+            to support sequential traversal of the set.
+
+5. Student: Represents a student with an ID, name, and GPA. It implements 'Comparable<Student>' to compare
+            students by ID and determine their position in the set. It also overrides 'equals()' and 'hashCode()'
+            so that students with the same ID are considered equal, regardless of their names or GPAs.
+
+6. Main: The entry point of the program. It reads student records from a text file, creates Student objects,
+            and adds them to the set. It also demonstrates displaying elements, searching for a student,
+            removing a student, and checking the total number of elements and array capacity.
+
+Input File
+-----------------------------------------------------------------
+Student.txt : The input file contains student records in CSV format:
+              [Student ID, Student Name, GPA].
+              The program reads each record, extracts its values, and creates a corresponding Student object.
+              Duplicate student IDs are rejected by the set.
+
+Features
+------------------------------------------------------------
+    - Stores unique elements.
+    - Maintains elements in ascending order.
+    - Uses 'Comparable' to determine element order.
+    - Automatically expands the array capacity when necessary.
+    - Supports adding, removing, searching, and clearing elements.
+    - Implements a custom iterator.
+    - Reads and processes student records from a text file.
+    - Prevents duplicate students based on student ID.
+
+Expected Behavior
+------------------------------------------------------------
+When the program runs, it displays the student records in ascending order by ID. Duplicate student IDs are rejected,
+and the program demonstrates searching for student ID 1005 and removing student ID 1003.
+The program also displays the total number of students and the current array capacity.

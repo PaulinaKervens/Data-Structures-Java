@@ -74,7 +74,7 @@ public class Student implements Comparable<Student> {
      */
     @Override
     public int compareTo(Student other) {
-        return other.id - this.id;
+        return Integer.compare(this.id, other.id);
     }
 
     /**
@@ -85,10 +85,40 @@ public class Student implements Comparable<Student> {
     @Override
     public String toString() {
         // Build the formatted output string using StringBuilder
-        StringBuilder result = new StringBuilder("Id: " + getId() + '\n' +
-                "Name: " + getName() + '\n' + "GPA: " + getGpa() + " out of 4.00" + '\n');
-
+        StringBuilder result = new StringBuilder(
+                                                    "ID: " + getId() + ", " +
+                                                    "Name: " + getName() + ", " +
+                                                    "GPA: " + getGpa() + " out of 4.00");
         // Return it by convert it to a String object
         return result.toString();
+    }
+
+    /**
+     * Method that checks whether two Student objects represent the same student.
+     * Two students are considered equal if they have the same ID.
+     *
+     * @param obj the object to compare with this student
+     * @return true if both students have the same ID, false otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (!(obj instanceof Student))
+            return false;
+
+        Student other = (Student) obj;
+        return id == other.id;
+    }
+
+    /**
+     * Method that generates a hash code based on the student's ID.
+     *
+     * @return the hash code of this student's ID
+     */
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
     }
 }

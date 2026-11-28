@@ -49,6 +49,7 @@ public class Simulator {
 
                 // Split the URL from the IP address
                 String[] lineSplit = line.split(",");
+
                 // pass the command
                 command(lineSplit);
             }

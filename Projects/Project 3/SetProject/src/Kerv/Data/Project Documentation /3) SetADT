@@ -1,0 +1,17 @@
+====================================================================
+                            SetADT
+====================================================================
+SetADT: is an interface that defines the basic operations of a Set.
+        It represents a collection of unique elements, meaning that
+        duplicate elements are not allowed.
+        It extends the [Iterable<E>] interface, allowing the elements
+        of a Set to be traversed one by one using an iterator or a foreach loop.
+
+Methods
+---------------------------------------------------------------------------------------------
+    - **add(E element) - boolean: Method that adds an element to the set if it is not already present.
+    - **remove(E element) - boolean: Method that removes an element from the set if it exists.
+    - **contains(E element) - boolean: Method that checks whether an element exists in the set.
+    - **size() - int: Method that returns the total number of elements in the set.
+    - **isEmpty() - boolean: Method that will checks whether the set contains any elements.
+    - **clear() - void: Method that removes all elements from the set.

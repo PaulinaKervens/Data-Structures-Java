@@ -27,6 +27,8 @@ public class ArraySet<E extends Comparable<E>> extends AbstractSet<E> {
         count = 0;          // Initialize count to indicate the set is empty
     }
 
+
+
     /**
      * Adds the specified element to this set if it is not already present.
      *
@@ -45,18 +47,20 @@ public class ArraySet<E extends Comparable<E>> extends AbstractSet<E> {
             expandCapacity();
 
 
-        /*// 4. Find correct sorted position.
-        for (int index = 0; index < count -1; index++) {
-            if (elements[index].compareTo(element)) {
+        // Find the correct sorted position.
+        int index = 0;
 
-            }
+        while (index < count && elements[index].compareTo(element) < 0) {
+            index++;
         }
-*/
 
-        // 5. Shift elements to make room.
+        // Shift elements to make room.
+        for (int i = count; i > index; i--) {
+            elements[i] = elements[i - 1];
+        }
 
-        // Insert element
-        elements[count] = element;
+        // Insert element.
+        elements[index] = element;
 
         // Update count
         count++;
@@ -64,41 +68,7 @@ public class ArraySet<E extends Comparable<E>> extends AbstractSet<E> {
         return true;
     }
 
-    /*private void sort() {
-        for (int index = 0; index < count -1; index++) {
-            if (elements[index].compareTo(index++) == 1) {
 
-            }
-        }
-    }*/
-
-
-    //
-
-    /**
-     * Helper method that swap two elements place.
-     *
-     * @param index1 First element index.
-     * @param index2 Second element index
-     * @return true if the swap was successful; otherwise false.
-     */
-    private boolean swap(int index1, int index2) {
-        // Check if both index arg are in a valid array indices
-        if (index1 < 0 || index2 < 0)
-            return false;
-
-        // Temporarily store the element at index1 so it isn't overwritten
-        E element = elements[index1];
-
-        // Move the element from index2 into index1
-        elements[index1] = elements[index2];
-
-        // Place the saved element into index2
-        elements[index2] = element;
-
-        // Indicate that the swap completed
-        return true;
-    }
 
     /**
      * Doubles the backing array capacity and copies existing elements into a larger array.
@@ -112,7 +82,7 @@ public class ArraySet<E extends Comparable<E>> extends AbstractSet<E> {
         E[] arr = (E[]) new Comparable[newCapacity];
 
         // Copy existing active elements into the new array
-        for (int index = 0; index < getCapacity(); index++)
+        for (int index = 0; index < count; index++)
             arr[index] = elements[index];
 
         // Replace the old array element with the new one
@@ -132,21 +102,18 @@ public class ArraySet<E extends Comparable<E>> extends AbstractSet<E> {
      */
     @Override
     public boolean remove(E element) {
-        // Return false if the set is empty, the element is null, or the element is not exist
-        if (isEmpty() || element == null || !contains(element))
-            return false;
+        // Return false if the set is empty or the element is null
+        if (isEmpty() || element == null) return false;
 
-        // Find the element by getting the element index
+        // Find the element's index
         int elementIndex = getIndexOf(element);
 
         // Check if the element exist in the array Set
-        if (elementIndex < 0)
-            return false;
+        if (elementIndex < 0) return false;
 
         // Shift subsequent elements to the left
         for (int index = elementIndex; index < count - 1; index++)
             elements[index] = elements[index + 1];
-
 
         // Empty the element target index completely who's the last index
         elements[count - 1] = null;
@@ -167,7 +134,7 @@ public class ArraySet<E extends Comparable<E>> extends AbstractSet<E> {
      */
     private int getIndexOf(E element) {
         // Scan only populated slots (0 through count - 1) for a match
-        for (int index = 0; index < count -1; index++)
+        for (int index = 0; index < count; index++)
             // Return the index as soon as a matching element is found
             if (elements[index].equals(element))
                 return index;
@@ -190,7 +157,7 @@ public class ArraySet<E extends Comparable<E>> extends AbstractSet<E> {
             return false;
 
         // Search for element in the element array
-        for (int index = 0; index < count -1; index++)
+        for (int index = 0; index < count; index++)
             if (elements[index].equals(element))
                 return true;
 
@@ -212,13 +179,13 @@ public class ArraySet<E extends Comparable<E>> extends AbstractSet<E> {
 
 
     /**
+     * Method that creat an iterator for the ArraySet.
      *
-     * @return
+     * @return an iterator.
      */
     @Override
     public Iterator<E> iterator() {
-        // TODO: Return a SetIterator.
-        return null;
+        return new SetIterator<>(elements, count);
     }
 
     /**
@@ -228,6 +195,24 @@ public class ArraySet<E extends Comparable<E>> extends AbstractSet<E> {
      */
     public int getCapacity() {
         return capacity;
+    }
+
+
+    /**
+     * Returns a string representation of all elements in the set.
+     *
+     * @return a string containing all elements in the set
+     */
+    @Override
+    public String toString() {
+        Iterator<E> iterator = iterator();
+        StringBuilder result = new StringBuilder();
+
+        while (iterator.hasNext()) {
+            result.append(iterator.next());
+            if (iterator.hasNext()) result.append('\n');
+        }
+        return result.toString();
     }
 
 }

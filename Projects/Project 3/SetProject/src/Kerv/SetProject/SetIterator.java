@@ -28,15 +28,18 @@ public class SetIterator<E> implements Iterator<E> {
      *
      * @param elements the array backing the set elements
      * @param size     the number of active elements in the set
-     * @throws IllegalArgumentException if {@code elements} is {@code null} or {@code size} is less than 1
+     * @throws IllegalArgumentException if {@code elements} is {@code null}, or {@code size} is negative
      */
     public SetIterator(E[] elements, int size) {
         // Validate that the backing array is non-null and contains at least one element
         if (elements == null || size < 0)
-            throw new IllegalArgumentException("Illegal argument throw, element != null and size > 0");
+            throw new IllegalArgumentException(
+                    "Elements cannot be null and size cannot be negative"
+            );
 
         this.elements = elements;
         this.size = size;
+        this.current = 0;
     }
 
 
@@ -63,9 +66,12 @@ public class SetIterator<E> implements Iterator<E> {
     public E next() {
         // Throw NoSuchElementException if no element remains.
         if (!hasNext())
-            throw new NoSuchElementException("No more element in the array");
+            throw new NoSuchElementException(
+                    "No more element in the array"
+            );
 
         // Return the next element and Advance current.
         return elements[current++];
     }
+
 }

@@ -4,20 +4,26 @@ import _5_BinarySearchTree.BinarySearchTree.src.kerv.BinarySearchTree;
 
 public class Main {
      static void main(String[] args) {
+         BinarySearchTree<Integer> bst = new BinarySearchTree();
 
-        BinarySearchTree bst = new BinarySearchTree();
+         bst.add(100);
+         bst.add(50);
+         bst.add(150);
+         bst.add(20);
+         bst.add(120);
+         bst.add(60);
+         bst.add(160);
+         bst.add(30);
+         bst.add(180);
 
-        bst.add(100);
-        bst.add(50);
-        bst.add(150);
-        bst.add(20);
-        bst.add(120);
-        bst.add(60);
-        bst.add(160);
-        bst.add(30);
-        bst.add(180);
+         IO.println("In-order print");
+         bst.inOrder();
 
-        bst.inOrder();
+         IO.println("\nIn pre-Order print");
+         bst.preOrder();
+
+         IO.println("\nIn post-Order print");
+         bst.postOrder();
 
     }
 
